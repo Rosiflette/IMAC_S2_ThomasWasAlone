@@ -1,10 +1,14 @@
 #include "App.hpp"
+#include "Level.h"
 
 static App& get_app(GLFWwindow* window) {
     return *reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
 }
 
 int main() {
+
+    Level lv(); // CA NE PASSE PAS DANS LE CONSTRUCTEUR ! -> devrais afficher dans la console val : 10 / val : 10 / val : 0 etc
+
     // Initialize the library
     if (!glfwInit()) {
         return -1;
@@ -37,7 +41,7 @@ int main() {
 
     // Hook user inputs to the App
     glfwSetWindowUserPointer(window, reinterpret_cast<void*>(&app));
-    
+
     glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         get_app(window).key_callback(key, scancode, action, mods);
     });
