@@ -1,0 +1,20 @@
+DEBUT SOUTIEN PROG
+
+--> lib glm très cool pour utiliser les vecteurs et les matrices sans avoir à créer les fonctions associées etc
+
+--> rapide point sur les classes (+ passage rapide sur for range loop)
+
+--> j'ai demandé c'est quoi un singleton j'ai toujours pas trop compris mais en gros dans le template d'enguerrand y en a pas et c'est pas nécessaire en fait. de plus render dans 
+!!!!!ah!!!!! du coup j'ai redemandé et c'est une classe un peu comme une super globale en php et elle s'appelle elle mm et nimp où dans le code on instance cette classe
+interet ? au premier abord aucun mais ça peut etre utile pour le son genre pour pas à avoir à appeler les fichiers sons par des references etc ou avoir des problemes et se retrouver avec 
+le son en double et tt
+
+FIN SOUTIEN
+
+
+Liens utiles projet :
+
+Collisions et AABB : https://www.youtube.com/watch?v=rjirHFVQAkY
+QuadTree : https://www.geeksforgeeks.org/quad-tree/
+
+Pour les boites d'enveloppement AABB il faudra surement faire une classe, elle servira pour gérer les collisions avec le QuadTree. 
