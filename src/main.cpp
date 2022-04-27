@@ -7,7 +7,6 @@ static App& get_app(GLFWwindow* window) {
 
 int main() {
 
-    Level lv(); // CA NE PASSE PAS DANS LE CONSTRUCTEUR ! -> devrais afficher dans la console val : 10 / val : 10 / val : 0 etc
 
     // Initialize the library
     if (!glfwInit()) {
@@ -57,6 +56,14 @@ int main() {
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
         get_app(window).size_callback(width, height);
     });
+
+
+
+    Level lvl; // CA NE PASSE PAS DANS LE CONSTRUCTEUR ! -> devrais afficher dans la console val : 10 / val : 10 / val : 0 etc
+    float yt = lvl.getCharacter().getPosUpperLeft().y;
+    std::cout <<"character : " << yt << std::endl;
+
+
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {

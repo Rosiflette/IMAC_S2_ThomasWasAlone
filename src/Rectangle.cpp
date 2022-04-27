@@ -1,8 +1,6 @@
 
 #include "Rectangle.h"
 
-
-
 Rectangle::Rectangle(){
   this->position = glm::vec2(0, 0);
   this->w = 0;

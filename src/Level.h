@@ -13,9 +13,13 @@ class Level{
       Rectangle character;
 
     public :
-        Level();
-        void split(std::string line, char delimiter, float arr[], int length);
+      Level();
+      void split(std::string line, char delimiter, float arr[]);
 
+      // GETTER
+      Rectangle getCharacter();
+      Rectangle* getObstacles();
+      int getObstaclesLength();
 
 };
 
