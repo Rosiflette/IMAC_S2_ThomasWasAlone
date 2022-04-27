@@ -1,6 +1,7 @@
 #include "App.hpp"
 #include "Level.h"
 
+
 static App& get_app(GLFWwindow* window) {
     return *reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
 }
@@ -68,6 +69,11 @@ int main() {
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
         app.Update();
+
+
+        //TEST RECTANGLE DRAWING
+        Rectangle rec(glm::vec2(0,700),1280,60,glm::vec3(1,1,1));
+        drawRectangle(rec);
 
         // Swap front and back buffers
         glfwSwapBuffers(window);

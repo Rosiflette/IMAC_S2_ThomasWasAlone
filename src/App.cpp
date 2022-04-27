@@ -64,22 +64,22 @@ void App::Render() {
     const glm::vec2 halfSize(_width/2.f, _height/2.f);
 
     // Render the texture on the screen
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, _textureId);
-    glBegin(GL_QUADS);
-        glm::vec2 upperLeft = rotateVec2(glm::vec2(0, 0), halfSize, _imageAngle);
-        glTexCoord2d(0,0); glVertex2f(upperLeft.x, upperLeft.y);
+    // glEnable(GL_TEXTURE_2D);
+    // glBindTexture(GL_TEXTURE_2D, _textureId);
+    // glBegin(GL_QUADS);
+    //     glm::vec2 upperLeft = rotateVec2(glm::vec2(0, 0), halfSize, _imageAngle);
+    //     glTexCoord2d(0,0); glVertex2f(upperLeft.x, upperLeft.y);
 
-        glm::vec2 upperRight = rotateVec2(glm::vec2(_width, 0), halfSize, _imageAngle);
-        glTexCoord2d(1,0); glVertex2f(upperRight.x, upperRight.y);
+    //     glm::vec2 upperRight = rotateVec2(glm::vec2(_width, 0), halfSize, _imageAngle);
+    //     glTexCoord2d(1,0); glVertex2f(upperRight.x, upperRight.y);
 
-        glm::vec2 bottomRight = rotateVec2(glm::vec2(_width, _height), halfSize, _imageAngle);
-        glTexCoord2d(1,1); glVertex2f(bottomRight.x, bottomRight.y);
+    //     glm::vec2 bottomRight = rotateVec2(glm::vec2(_width, _height), halfSize, _imageAngle);
+    //     glTexCoord2d(1,1); glVertex2f(bottomRight.x, bottomRight.y);
 
-        glm::vec2 bottomLeft = rotateVec2(glm::vec2(0, _height), halfSize, _imageAngle);
-        glTexCoord2d(0,1); glVertex2f(bottomLeft.x, bottomLeft.y);
-    glEnd();
-    glDisable(GL_TEXTURE_2D);
+    //     glm::vec2 bottomLeft = rotateVec2(glm::vec2(0, _height), halfSize, _imageAngle);
+    //     glTexCoord2d(0,1); glVertex2f(bottomLeft.x, bottomLeft.y);
+    // glEnd();
+    // glDisable(GL_TEXTURE_2D);
 
 }
 
@@ -105,4 +105,15 @@ void App::size_callback(int width, int height) {
 
 glm::vec2 App::rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle) {
     return glm::rotate(vec-center,  glm::radians(angle))+center;
+}
+
+//A mettre dans display
+void drawRectangle(Rectangle rec){
+    glBegin(GL_POLYGON);
+        glColor3f(rec.getColor().x,rec.getColor().y,rec.getColor().z );
+        glVertex2f(rec.getPosUpperLeft().x,rec.getPosUpperLeft().y);
+        glVertex2f(rec.getPosBottomLeft().x,rec.getPosBottomLeft().y);
+        glVertex2f(rec.getPosBottomRight().x,rec.getPosBottomRight().y);
+        glVertex2f(rec.getPosUpperRight().x,rec.getPosUpperRight().y);
+    glEnd();
 }

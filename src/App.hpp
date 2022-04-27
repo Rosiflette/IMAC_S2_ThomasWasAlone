@@ -4,6 +4,11 @@
 #include "glad/glad.h"
 #include <glm/glm.hpp>
 
+//c'est ici qu'il faut le mettre ??
+#include "Display.h"
+#include "Rectangle.h"
+
+
 class App {
 public:
     App();
@@ -28,3 +33,6 @@ private:
 
     float _imageAngle;
 };
+
+
+void drawRectangle(Rectangle rec);
