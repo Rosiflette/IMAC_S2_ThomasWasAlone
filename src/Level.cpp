@@ -5,7 +5,7 @@
 
 
 Level::Level(){
-  this->obstaclesLength = 0;
+
   char delimiter = ';';
   std::string line;
   std::ifstream myfile ("src/levels.txt");
@@ -14,13 +14,15 @@ Level::Level(){
     getline(myfile, line);
     if(!line.compare("MAPS")){
       getline(myfile,line);
+      this->obstacles.reserve(std::stof(line));
+      getline(myfile,line);
       while (line.compare("/")){
         int length = 7;
         float* valueArray = new float [length];
         split(line, delimiter, valueArray);
+
         Rectangle r (glm::vec2(valueArray[0],valueArray[1]),valueArray[2],valueArray[3],glm::vec3(valueArray[4],valueArray[5],valueArray[6]));
-        this->obstacles[obstaclesLength] = r;
-        this->obstaclesLength++;
+        this->obstacles.push_back(r);
         delete [] valueArray;
         getline(myfile,line);
       }
@@ -41,7 +43,7 @@ Level::Level(){
     myfile.close();
   }
   else{
-    std::cout << "error !!" << std::endl;
+    std::cout << "error open file !!" << std::endl;
   }
 }
 
@@ -57,16 +59,11 @@ void Level::split(std::string line, char delimiter, float arr[]){
   }
 }
 
-
-
 // GETTER
 
 Rectangle Level::getCharacter(){
   return character;
 }
-Rectangle* Level::getObstacles(){
+std::vector<Rectangle> Level::getObstacles(){
   return obstacles;
-}
-int Level::getObstaclesLength(){
-  return obstaclesLength;
 }

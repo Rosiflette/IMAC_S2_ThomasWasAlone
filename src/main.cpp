@@ -60,9 +60,11 @@ int main() {
 
 
 
-    Level lvl; // CA NE PASSE PAS DANS LE CONSTRUCTEUR ! -> devrais afficher dans la console val : 10 / val : 10 / val : 0 etc
-    float yt = lvl.getCharacter().getPosUpperLeft().y;
-    std::cout <<"character : " << yt << std::endl;
+    Level lvl;
+    for (size_t i = 0; i < lvl.getObstacles().size(); i++) {
+      std::cout << "Rectangle " << i << std::endl;
+      lvl.getObstacles()[i].displayValues();
+    }
 
 
 
@@ -81,6 +83,8 @@ int main() {
         // Poll for and process events
         glfwPollEvents();
     }
+
+
 
     glfwTerminate();
     return 0;

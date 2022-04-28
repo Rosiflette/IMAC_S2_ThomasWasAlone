@@ -3,13 +3,13 @@
 #include "Rectangle.h"
 #include <iostream>
 #include <string>
+#include <vector>
 
 
 class Level{
 
     private :
-      Rectangle* obstacles;
-      int obstaclesLength;
+      std::vector<Rectangle> obstacles;
       Rectangle character;
 
     public :
@@ -18,8 +18,7 @@ class Level{
 
       // GETTER
       Rectangle getCharacter();
-      Rectangle* getObstacles();
-      int getObstaclesLength();
+      std::vector<Rectangle> getObstacles();
 
 };
 

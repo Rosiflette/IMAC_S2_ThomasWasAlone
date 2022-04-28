@@ -8,10 +8,11 @@
 
 #include "helpers/RootDir.hpp"
 
+#include <iostream> // for displayValues() function
 
 class Rectangle{
 
-    private :
+    protected :
         //position refers to the upper left corner
         glm::vec2 position;
         float w;
@@ -21,6 +22,7 @@ class Rectangle{
     public :
         Rectangle();
         Rectangle(glm::vec2 position,float w,float h, glm::vec3 col);
+        void displayValues();
 
         // GETTER
         glm::vec2 getPosUpperLeft();
