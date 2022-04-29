@@ -13,7 +13,7 @@ Rectangle::Rectangle(glm::vec2 pos,float w,float h, glm::vec3 col){
   this->position = pos;
   this->w = w;
   this->h = h;
-  this->color= glm::vec3(std::fmod(col.x,256), std::fmod(col.y,256), std::fmod(col.z,256));
+  this->color= glm::vec3(std::fmod(col.x,256)/255, std::fmod(col.y,256)/255, std::fmod(col.z,256)/255);
 }
 
 glm::vec2 Rectangle::getPosUpperLeft(){
