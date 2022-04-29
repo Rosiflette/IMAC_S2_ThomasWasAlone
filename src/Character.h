@@ -8,7 +8,9 @@ class Character : public Rectangle {
     glm::vec2 positionArrivee;
 
   public:
-    Character() {}
+    Character();
+    Character(glm::vec2 pos,float w,float h, glm::vec3 col, glm::vec2 positionArrivee);
+    void displayValues();
 };
 
 #endif //CHARACTER_H

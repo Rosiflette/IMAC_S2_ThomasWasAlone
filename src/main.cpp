@@ -65,7 +65,8 @@ int main() {
       std::cout << "Rectangle " << i << std::endl;
       lvl.getObstacles()[i].displayValues();
     }
-
+    std::cout << "Character " << std::endl;
+    lvl.getCharacter().displayValues();
 
 
     // Loop until the user closes the window

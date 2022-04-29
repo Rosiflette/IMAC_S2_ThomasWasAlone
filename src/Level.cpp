@@ -20,7 +20,6 @@ Level::Level(){
         int length = 7;
         float* valueArray = new float [length];
         split(line, delimiter, valueArray);
-
         Rectangle r (glm::vec2(valueArray[0],valueArray[1]),valueArray[2],valueArray[3],glm::vec3(valueArray[4],valueArray[5],valueArray[6]));
         this->obstacles.push_back(r);
         delete [] valueArray;
@@ -31,10 +30,10 @@ Level::Level(){
     if(!line.compare("CHARACTER")){
       getline(myfile,line);
       while (line.compare("/")){
-        int length = 7;
+        int length = 9;
         float* valueArray = new float [length];
         split(line, delimiter, valueArray);
-        Rectangle r (glm::vec2(valueArray[0],valueArray[1]),valueArray[2],valueArray[3],glm::vec3(valueArray[4],valueArray[5],valueArray[6]));
+        Character r (glm::vec2(valueArray[0],valueArray[1]),valueArray[2],valueArray[3],glm::vec3(valueArray[4],valueArray[5],valueArray[6]), glm::vec2((valueArray[7]), valueArray[8]));
         this->character = r;
         delete [] valueArray;
         getline(myfile,line);
@@ -61,7 +60,7 @@ void Level::split(std::string line, char delimiter, float arr[]){
 
 // GETTER
 
-Rectangle Level::getCharacter(){
+Character Level::getCharacter(){
   return character;
 }
 std::vector<Rectangle> Level::getObstacles(){
