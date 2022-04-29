@@ -21,9 +21,11 @@ App::App() : _previousTime(0.0), _imageAngle(0.0f) {
 
 void App::Update() {
 
-    // double currentTime = glfwGetTime();
-    // double elapsedTime = currentTime - _previousTime;
-    // _previousTime = currentTime;
+    double currentTime = glfwGetTime();
+    deltaTime = currentTime - _previousTime;
+    _previousTime = currentTime;
+
+
     
     // update imageAngle (use elapsedTime to update without being dependent on the frame rate)
     //_imageAngle = fmod(_imageAngle + 10.0f * (float)elapsedTime, 360.0f);
@@ -35,7 +37,7 @@ void App::Update() {
         displayLevel();
     }
 
-    //Render();
+    Render();
 }
 
 void App::Render() {
@@ -50,7 +52,7 @@ void App::Render() {
 
     // const glm::vec2 halfSize(_width/2.f, _height/2.f);
 
-    // // Render the texture on the screen
+    // Render the texture on the screen
     // glEnable(GL_TEXTURE_2D);
     // glBindTexture(GL_TEXTURE_2D, _textureId);
     // glBegin(GL_QUADS);
@@ -72,9 +74,27 @@ void App::Render() {
 
 void App::key_callback(int key, int /*scancode*/, int /*action*/, int /*mods*/) {
     std::cout << key << std::endl;
-    if(key == GLFW_KEY_ENTER && page == 1){
-        std::cout << "Enter is pressed" << std::endl;
-        page = 2;
+    switch (key)
+    {
+    case GLFW_KEY_ENTER:
+        if(page==1){
+            std::cout << "Enter is pressed" << std::endl;
+            page = 2;
+        }
+        break;
+
+    case GLFW_KEY_RIGHT:
+        lvl.getCharacter().move(deltaTime);
+        break;
+    case GLFW_KEY_LEFT:
+        lvl.getCharacter().move(-deltaTime);
+        break;
+    // case GLFW_KEY_SPACE:
+    //     lvl.getCharacter().jump(deltaTime);
+    //      break;
+    
+    default:
+        break;
     }
 }
 

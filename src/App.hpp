@@ -38,6 +38,9 @@ private:
     GLuint _textureId;
 
     float _imageAngle;
+    Level lvl;
+    Rectangle test;
+    float deltaTime;
 
     int page; // 1 = menu, 2 = jeu
     

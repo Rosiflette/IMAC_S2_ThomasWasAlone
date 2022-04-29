@@ -63,7 +63,7 @@ int main() {
     //Level lvl;
 
 
-    Reader r("src/level.txt");
+    Reader r(std::string(ROOT_DIR) + "src/level.txt");
     Level lvl = r.readNextLevel();
 
     for (size_t i = 0; i < lvl.getObstacles().size(); i++) {
@@ -89,8 +89,6 @@ int main() {
 
         
         //app.displayLevel();
-
-
 
         // Swap front and back buffers
         glfwSwapBuffers(window);
