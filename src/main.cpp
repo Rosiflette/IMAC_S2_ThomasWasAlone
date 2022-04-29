@@ -1,6 +1,6 @@
 #include "App.hpp"
 #include "Level.h"
-
+#include "Reader.h"
 
 static App& get_app(GLFWwindow* window) {
     return *reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
@@ -60,7 +60,12 @@ int main() {
 
 
 
-    Level lvl;
+    //Level lvl;
+
+
+    Reader r(std::string(ROOT_DIR) + "src/level.txt");
+    Level lvl = r.readNextLevel();
+
     for (size_t i = 0; i < lvl.getObstacles().size(); i++) {
       std::cout << "Rectangle " << i << std::endl;
       lvl.getObstacles()[i].displayValues();
@@ -68,11 +73,22 @@ int main() {
     std::cout << "Character " << std::endl;
     lvl.getCharacter().displayValues();
 
+    app.currentLevel = lvl;
+
+    Level lvl2 = r.readNextLevel();
+    for (size_t i = 0; i < lvl2.getObstacles().size(); i++) {
+      std::cout << "Rectangle " << i << std::endl;
+      lvl2.getObstacles()[i].displayValues();
+    }
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
         app.Update();
+        
+        //startMenu();
 
+        
+        //app.displayLevel();
 
         // Swap front and back buffers
         glfwSwapBuffers(window);

@@ -10,6 +10,7 @@
 #include "Level.h"
 
 
+
 class App {
 public:
     App();
@@ -21,6 +22,10 @@ public:
     void scroll_callback(double xoffset, double yoffset);
     void cursor_position_callback(double xpos, double ypos);
     void size_callback(int width, int height);
+    //fonctions qu'on a ajouté
+    void startMenu();
+    void displayLevel();
+    Level currentLevel;
 
 private: 
     void Render();
@@ -36,6 +41,9 @@ private:
     Level lvl;
     Rectangle test;
     float deltaTime;
+
+    int page; // 1 = menu, 2 = jeu
+    
 };
 
 

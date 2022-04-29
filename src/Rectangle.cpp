@@ -13,7 +13,7 @@ Rectangle::Rectangle(glm::vec2 pos,float w,float h, glm::vec3 col){
   this->position = pos;
   this->w = w;
   this->h = h;
-  this->color= glm::vec3(std::fmod(col.x,256), std::fmod(col.y,256), std::fmod(col.z,256));
+  this->color= glm::vec3(std::fmod(col.x,256)/255, std::fmod(col.y,256)/255, std::fmod(col.z,256)/255);
 }
 
 glm::vec2 Rectangle::getPosUpperLeft(){
@@ -50,12 +50,12 @@ void Rectangle::displayValues(){
   std::cout << "Couleur r, g, b : " << this->color.x << "," << this->color.y << "," << this->color.z << std::endl;
 }
 
-void Rectangle::draw(){
-  glBegin(GL_POLYGON);
-      glColor3f(this->getColor().x,this->getColor().y,this->getColor().z );
-      glVertex2f(this->getPosUpperLeft().x,this->getPosUpperLeft().y);
-      glVertex2f(this->getPosBottomLeft().x,this->getPosBottomLeft().y);
-      glVertex2f(this->getPosBottomRight().x,this->getPosBottomRight().y);
-      glVertex2f(this->getPosUpperRight().x,this->getPosUpperRight().y);
-  glEnd();
-}
+// void Rectangle::draw(){
+//   glBegin(GL_POLYGON);
+//       glColor3f(this->getColor().x,this->getColor().y,this->getColor().z );
+//       glVertex2f(this->getPosUpperLeft().x,this->getPosUpperLeft().y);
+//       glVertex2f(this->getPosBottomLeft().x,this->getPosBottomLeft().y);
+//       glVertex2f(this->getPosBottomRight().x,this->getPosBottomRight().y);
+//       glVertex2f(this->getPosUpperRight().x,this->getPosUpperRight().y);
+//   glEnd();
+// }
