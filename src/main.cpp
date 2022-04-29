@@ -59,23 +59,25 @@ int main() {
     });
 
 
-
     Level lvl;
     for (size_t i = 0; i < lvl.getObstacles().size(); i++) {
       std::cout << "Rectangle " << i << std::endl;
       lvl.getObstacles()[i].displayValues();
     }
 
+    app.currentLevel = lvl;
 
-
+    
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
         app.Update();
+        
+        //startMenu();
+
+        
+        //app.displayLevel();
 
 
-        //TEST RECTANGLE DRAWING
-        Rectangle rec(glm::vec2(0,700),1280,60,glm::vec3(1,1,1));
-        drawRectangle(rec);
 
         // Swap front and back buffers
         glfwSwapBuffers(window);

@@ -7,6 +7,8 @@
 //c'est ici qu'il faut le mettre ??
 #include "Display.h"
 #include "Rectangle.h"
+#include "Level.h"
+
 
 
 class App {
@@ -20,6 +22,10 @@ public:
     void scroll_callback(double xoffset, double yoffset);
     void cursor_position_callback(double xpos, double ypos);
     void size_callback(int width, int height);
+    //fonctions qu'on a ajouté
+    void startMenu();
+    void displayLevel();
+    Level currentLevel;
 
 private: 
     void Render();
@@ -32,6 +38,9 @@ private:
     GLuint _textureId;
 
     float _imageAngle;
+
+    int page; // 1 = menu, 2 = jeu
+    
 };
 
 
