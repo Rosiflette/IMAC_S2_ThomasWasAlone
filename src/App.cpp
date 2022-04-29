@@ -10,7 +10,7 @@
 
 #include "helpers/RootDir.hpp"
 
-App::App() : _previousTime(0.0), _imageAngle(0.0f) {
+App::App() : _previousTime(0.0), _imageAngle(0.0f), test(glm::vec2(0,700),1280,60,glm::vec3(1,1,1)){
 
     // Generate texture
     glGenTextures(1, &_textureId);
@@ -37,16 +37,21 @@ App::App() : _previousTime(0.0), _imageAngle(0.0f) {
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
+
+    
+
 }
 
 void App::Update() {
 
     double currentTime = glfwGetTime();
-    double elapsedTime = currentTime - _previousTime;
+    deltaTime = currentTime - _previousTime;
     _previousTime = currentTime;
+
+
     
     // update imageAngle (use elapsedTime to update without being dependent on the frame rate)
-    _imageAngle = fmod(_imageAngle + 10.0f * (float)elapsedTime, 360.0f);
+    //_imageAngle = fmod(_imageAngle + 10.0f * (float)elapsedTime, 360.0f);
 
     Render();
 }
@@ -62,6 +67,10 @@ void App::Render() {
     glMatrixMode(GL_MODELVIEW);
 
     const glm::vec2 halfSize(_width/2.f, _height/2.f);
+
+    //TEST RECTANGLE DRAWING
+        test.draw();
+        lvl.getCharacter().draw();
 
     // Render the texture on the screen
     // glEnable(GL_TEXTURE_2D);
@@ -83,7 +92,20 @@ void App::Render() {
 
 }
 
-void App::key_callback(int /*key*/, int /*scancode*/, int /*action*/, int /*mods*/) {
+void App::key_callback(int key, int /*scancode*/, int /*action*/, int /*mods*/) {
+    switch (key)
+    {
+    case GLFW_KEY_RIGHT:
+        lvl.getCharacter().move(deltaTime);
+        break;
+    case GLFW_KEY_LEFT:
+        lvl.getCharacter().move(-deltaTime);
+    case GLFW_KEY_SPACE:
+        lvl.getCharacter().jump(deltaTime);
+    
+    default:
+        break;
+    }
 }
 
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
@@ -108,12 +130,12 @@ glm::vec2 App::rotateVec2(const glm::vec2& vec, const glm::vec2& center, const f
 }
 
 //A mettre dans display
-void drawRectangle(Rectangle rec){
-    glBegin(GL_POLYGON);
-        glColor3f(rec.getColor().x,rec.getColor().y,rec.getColor().z );
-        glVertex2f(rec.getPosUpperLeft().x,rec.getPosUpperLeft().y);
-        glVertex2f(rec.getPosBottomLeft().x,rec.getPosBottomLeft().y);
-        glVertex2f(rec.getPosBottomRight().x,rec.getPosBottomRight().y);
-        glVertex2f(rec.getPosUpperRight().x,rec.getPosUpperRight().y);
-    glEnd();
-}
+// void drawRectangle(Rectangle rec){
+//     glBegin(GL_POLYGON);
+//         glColor3f(rec.getColor().x,rec.getColor().y,rec.getColor().z );
+//         glVertex2f(rec.getPosUpperLeft().x,rec.getPosUpperLeft().y);
+//         glVertex2f(rec.getPosBottomLeft().x,rec.getPosBottomLeft().y);
+//         glVertex2f(rec.getPosBottomRight().x,rec.getPosBottomRight().y);
+//         glVertex2f(rec.getPosUpperRight().x,rec.getPosUpperRight().y);
+//     glEnd();
+// }

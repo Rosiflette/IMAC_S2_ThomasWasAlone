@@ -7,6 +7,7 @@
 //c'est ici qu'il faut le mettre ??
 #include "Display.h"
 #include "Rectangle.h"
+#include "Level.h"
 
 
 class App {
@@ -32,6 +33,9 @@ private:
     GLuint _textureId;
 
     float _imageAngle;
+    Level lvl;
+    Rectangle test;
+    float deltaTime;
 };
 
 

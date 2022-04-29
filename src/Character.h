@@ -11,6 +11,8 @@ class Character : public Rectangle {
     Character();
     Character(glm::vec2 pos,float w,float h, glm::vec3 col, glm::vec2 positionArrivee);
     void displayValues();
+    void move(float deltaTime);
+    void jump();
 };
 
 #endif //CHARACTER_H

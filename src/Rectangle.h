@@ -23,6 +23,7 @@ class Rectangle{
         Rectangle();
         Rectangle(glm::vec2 position,float w,float h, glm::vec3 col);
         void displayValues();
+        void draw();
 
         // GETTER
         glm::vec2 getPosUpperLeft();

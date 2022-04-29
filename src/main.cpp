@@ -74,10 +74,6 @@ int main() {
         app.Update();
 
 
-        //TEST RECTANGLE DRAWING
-        Rectangle rec(glm::vec2(0,700),1280,60,glm::vec3(1,1,1));
-        drawRectangle(rec);
-
         // Swap front and back buffers
         glfwSwapBuffers(window);
 

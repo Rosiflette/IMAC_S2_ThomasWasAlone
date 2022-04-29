@@ -8,7 +8,7 @@ Level::Level(){
 
   char delimiter = ';';
   std::string line;
-  std::ifstream myfile ("src/levels.txt");
+  std::ifstream myfile (std::string(ROOT_DIR) +"src/levels.txt");
   if (myfile.is_open())
   {
     getline(myfile, line);

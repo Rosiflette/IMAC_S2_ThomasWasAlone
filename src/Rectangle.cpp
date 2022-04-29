@@ -49,3 +49,13 @@ void Rectangle::displayValues(){
   std::cout << "Taille width, height : " << this->w << "," << this->h << std::endl;
   std::cout << "Couleur r, g, b : " << this->color.x << "," << this->color.y << "," << this->color.z << std::endl;
 }
+
+void Rectangle::draw(){
+  glBegin(GL_POLYGON);
+      glColor3f(this->getColor().x,this->getColor().y,this->getColor().z );
+      glVertex2f(this->getPosUpperLeft().x,this->getPosUpperLeft().y);
+      glVertex2f(this->getPosBottomLeft().x,this->getPosBottomLeft().y);
+      glVertex2f(this->getPosBottomRight().x,this->getPosBottomRight().y);
+      glVertex2f(this->getPosUpperRight().x,this->getPosUpperRight().y);
+  glEnd();
+}
