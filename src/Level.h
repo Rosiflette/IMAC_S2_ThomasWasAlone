@@ -15,11 +15,18 @@ class Level{
 
     public :
       Level();
-      void split(std::string line, char delimiter, float arr[]);
 
       // GETTER
       Character getCharacter();
       std::vector<Rectangle> getObstacles();
+
+      // SETTER
+      void setCharacter(Character c){
+        this->character = c;
+      }
+      void addObsacles(Rectangle r){
+        this->obstacles.push_back(r);
+      }
 
 };
 
