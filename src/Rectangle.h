@@ -1,12 +1,9 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
-#include "GLFW/glfw3.h"
-#include "stb_image.h"
-#include <glm/glm.hpp>
-#include <glm/gtx/rotate_vector.hpp>
 
-#include "helpers/RootDir.hpp"
+#include <glm/glm.hpp>
+
 
 #include <iostream> // for displayValues() function
 

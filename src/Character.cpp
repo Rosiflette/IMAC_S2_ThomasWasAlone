@@ -16,6 +16,11 @@ void Character::move(float deltaTime){
     this->position.x += speed*deltaTime;
 }
 
-void Character::jump(){
+void Character::jump(float deltaTime){
+    float gravity = 9.81;
+    float power = 0.1;
+    float speed = 0;
+    speed += gravity*power;
+    this->position.y += speed*deltaTime;
 
 }

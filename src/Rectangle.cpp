@@ -1,5 +1,6 @@
 
 #include "Rectangle.h"
+#include "glad/glad.h"
 
 Rectangle::Rectangle(){
   this->position = glm::vec2(0, 0);

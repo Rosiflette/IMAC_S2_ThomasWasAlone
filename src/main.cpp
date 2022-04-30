@@ -1,6 +1,12 @@
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+#include "glad/glad.h"
+
 #include "App.hpp"
 #include "Level.h"
 #include "Reader.h"
+
+#include "helpers/RootDir.hpp"
 
 static App& get_app(GLFWwindow* window) {
     return *reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
@@ -58,10 +64,15 @@ int main() {
         get_app(window).size_callback(width, height);
     });
 
-
-
+     // Force call the size_callback of the app to set the right viewport and projection matrix
+    
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    std::cout << "width " << width << std::endl;
+    std::cout << "height" << height << std::endl;
+    app.size_callback(width, height);
+    
     //Level lvl;
-
 
     Reader r(std::string(ROOT_DIR) + "src/level.txt");
     Level lvl = r.readNextLevel();
@@ -87,7 +98,6 @@ int main() {
         
         //startMenu();
 
-        
         //app.displayLevel();
 
         // Swap front and back buffers

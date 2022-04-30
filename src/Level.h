@@ -17,7 +17,7 @@ class Level{
       Level();
 
       // GETTER
-      Character getCharacter();
+      Character& getCharacter();
       std::vector<Rectangle> getObstacles();
 
       // SETTER

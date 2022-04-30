@@ -1,6 +1,11 @@
 #pragma once
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
+//#define GLFW_INCLUDE_NONE
+// #include "GLFW/glfw3.h"
+// #include "glad/glad.h"
+// #include <glm/glm.hpp>
+
+#include <string>
+
 #include "glad/glad.h"
 #include <glm/glm.hpp>
 
@@ -14,6 +19,7 @@
 class App {
 public:
     App();
+    App(float viewSize);
     void Update();
     
     // callbacks users input
@@ -28,11 +34,13 @@ public:
     Level currentLevel;
 
 private: 
+    void LoadImage(const std::string& imagePath);
     void Render();
     glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
 
     int _width;
     int _height;
+    float _viewSize;
     double _previousTime;
 
     GLuint _textureId;
@@ -41,6 +49,7 @@ private:
     Level lvl;
     Rectangle test;
     float deltaTime;
+
 
     int page; // 1 = menu, 2 = jeu
     

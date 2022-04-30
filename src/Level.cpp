@@ -7,7 +7,7 @@ Level::Level(){}
 
 // GETTER
 
-Character Level::getCharacter(){
+Character& Level::getCharacter(){
   return character;
 }
 std::vector<Rectangle> Level::getObstacles(){
