@@ -10,17 +10,24 @@
 class Rectangle{
 
     protected :
-        //position refers to the upper left corner
-        glm::vec2 position;
-        float w;
-        float h;
+        // 2 vertex that define the Rectangle
+        glm::vec2 topLeft;
+        glm::vec2 botRight;
+
         glm::vec3 color;
 
     public :
         Rectangle();
-        Rectangle(glm::vec2 position,float w,float h, glm::vec3 col);
+        Rectangle(glm::vec2 positionTopLeft,glm::vec2 positionBotRight);
+        Rectangle(glm::vec2 positionTopLeft,glm::vec2 positionBotRight, glm::vec3 col);
         void displayValues();
-        //void draw();
+        void draw();
+
+        // Si l'un des coins est dans le rectangle;
+        bool isRectangleInRectangle(Rectangle r);
+
+        // Return true si le point en paramètre est contenu dans le rectangle
+        bool isPointInRectangle(glm::vec2 p);
 
         // GETTER
         glm::vec2 getPosUpperLeft();
@@ -28,6 +35,8 @@ class Rectangle{
         glm::vec2 getPosBottomLeft();
         glm::vec2 getPosBottomRight();
         glm::vec3 getColor();
+        float getWidth();
+        float getHeight();
 
 };
 

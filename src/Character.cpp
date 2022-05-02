@@ -2,7 +2,7 @@
 
 Character::Character(){}
 
-Character::Character(glm::vec2 pos,float w,float h, glm::vec3 col, glm::vec2 positionArrivee): Rectangle(pos,w,h,col){
+Character::Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee): Rectangle(posTL,posBR,col){
   this->positionArrivee = positionArrivee;
 }
 
@@ -13,7 +13,7 @@ void Character::displayValues(){
 
 void Character::move(float deltaTime){
     float speed = 3.0;
-    this->position.x += speed*deltaTime;
+    this->topLeft.x += speed*deltaTime;
 }
 
 void Character::jump(float deltaTime){
@@ -21,6 +21,6 @@ void Character::jump(float deltaTime){
     float power = 0.1;
     float speed = 0;
     speed += gravity*power;
-    this->position.y += speed*deltaTime;
+    this->topLeft.y += speed*deltaTime;
 
 }

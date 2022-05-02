@@ -20,7 +20,7 @@ Level Reader::readNextLevel(){
         int length = 7;
         float* valueArray = new float [length];
         split(line, delimiter, valueArray);
-        Rectangle r (glm::vec2(valueArray[0],valueArray[1]),valueArray[2],valueArray[3],glm::vec3(valueArray[4],valueArray[5],valueArray[6]));
+        Rectangle r (glm::vec2(valueArray[0],valueArray[1]), glm::vec2(valueArray[2],valueArray[3]),glm::vec3(valueArray[4],valueArray[5],valueArray[6]));
         lvl.addObsacles(r);
         delete [] valueArray;
         break;
@@ -32,7 +32,7 @@ Level Reader::readNextLevel(){
         int length = 9;
         float* valueArray = new float [length];
         split(line, delimiter, valueArray);
-        Character c (glm::vec2(valueArray[0],valueArray[1]),valueArray[2],valueArray[3],glm::vec3(valueArray[4],valueArray[5],valueArray[6]), glm::vec2((valueArray[7]), valueArray[8]));
+        Character c (glm::vec2(valueArray[0],valueArray[1]), glm::vec2(valueArray[2],valueArray[3]),glm::vec3(valueArray[4],valueArray[5],valueArray[6]), glm::vec2((valueArray[7]), valueArray[8]));
         lvl.setCharacter(c);
         delete [] valueArray;
         break;}

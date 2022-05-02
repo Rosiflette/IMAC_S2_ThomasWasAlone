@@ -9,7 +9,7 @@ class Character : public Rectangle {
 
   public:
     Character();
-    Character(glm::vec2 pos,float w,float h, glm::vec3 col, glm::vec2 positionArrivee);
+    Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee);
     void displayValues();
     void move(float deltaTime);
     void jump(float deltaTime);
