@@ -13,6 +13,9 @@
 #include "Display.h"
 #include "Rectangle.h"
 #include "Level.h"
+//A RETIRER
+#include "Quadtree.h"
+#include "Reader.h"
 
 
 
@@ -32,6 +35,8 @@ public:
     void startMenu();
     void displayLevel();
     Level currentLevel;
+    Quadtree qt;
+
 
 private: 
     void LoadImage(const std::string& imagePath);

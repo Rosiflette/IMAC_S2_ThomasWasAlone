@@ -21,7 +21,7 @@ class Rectangle{
         Rectangle(glm::vec2 positionTopLeft,glm::vec2 positionBotRight);
         Rectangle(glm::vec2 positionTopLeft,glm::vec2 positionBotRight, glm::vec3 col);
         void displayValues();
-        void draw();
+        void draw(int isFilled);
 
         // Si l'un des coins est dans le rectangle;
         bool isRectangleInRectangle(Rectangle r);

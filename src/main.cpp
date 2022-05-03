@@ -8,6 +8,8 @@
 
 #include "helpers/RootDir.hpp"
 
+#include "Quadtree.h"
+
 static App& get_app(GLFWwindow* window) {
     return *reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
 }
@@ -68,37 +70,14 @@ int main() {
     
     int width, height;
     glfwGetWindowSize(window, &width, &height);
-    std::cout << "width " << width << std::endl;
-    std::cout << "height" << height << std::endl;
+    // std::cout << "width " << width << std::endl;
+    // std::cout << "height" << height << std::endl;
     app.size_callback(width, height);
-    
-    //Level lvl;
-
-    Reader r(std::string(ROOT_DIR) + "src/level.txt");
-    Level lvl = r.readNextLevel();
-
-    for (size_t i = 0; i < lvl.getObstacles().size(); i++) {
-      std::cout << "Rectangle " << i << std::endl;
-      lvl.getObstacles()[i].displayValues();
-    }
-    std::cout << "Character " << std::endl;
-    lvl.getCharacter().displayValues();
-
-    app.currentLevel = lvl;
-
-    Level lvl2 = r.readNextLevel();
-    for (size_t i = 0; i < lvl2.getObstacles().size(); i++) {
-      std::cout << "Rectangle " << i << std::endl;
-      lvl2.getObstacles()[i].displayValues();
-    }
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
         app.Update();
         
-        //startMenu();
-
-        //app.displayLevel();
 
         // Swap front and back buffers
         glfwSwapBuffers(window);

@@ -68,20 +68,6 @@ void Rectangle::displayValues(){
 // return 1 si l'un des 4 angles du rectangle r est dans le rectangle this
 bool Rectangle::isRectangleInRectangle(Rectangle r){
 
-  // std::cout << "jksbdkqj" << std::endl;
-  // if(this->isPointInRectangle(r.getPosUpperLeft())){
-  //   std::cout << "a" << std::endl;
-  // }
-  // if(this->isPointInRectangle(r.getPosUpperRight())){
-  //   std::cout << "b" << std::endl;
-  // }
-  //   if(this->isPointInRectangle(r.getPosBottomLeft())){
-  //   std::cout << "c" << std::endl;
-  // }
-  //   if(this->isPointInRectangle(r.getPosBottomRight())){
-  //   std::cout << "d" << std::endl;
-  // }
-
     return (this->isPointInRectangle(r.getPosUpperLeft()) ||
         this->isPointInRectangle(r.getPosUpperRight()) ||
         this->isPointInRectangle(r.getPosBottomLeft()) ||
@@ -89,28 +75,20 @@ bool Rectangle::isRectangleInRectangle(Rectangle r){
 }
 
 bool Rectangle::isPointInRectangle(glm::vec2 p){
-    // std::cout << "ahhhhhhhhhhh" << std::endl;
-    // if(p.x >= this->topLeft.x){
-    //   std::cout << "ah" << std::endl;
-    // }
-    // if(p.x <= this->botRight.x){
-    //   std::cout << "bh" << std::endl;
-    // }
-    //   if(p.y <= this->topLeft.y){
-    //   std::cout << "ch" << std::endl;
-    // }
-    //   if(p.y >= this->botRight.y){
-    //   std::cout << "dh" << std::endl;
-    // }
     return (p.x >= this->topLeft.x &&
         p.x <= this->botRight.x &&
         p.y <= this->topLeft.y &&
-        p.y >= this->botRight.y); // A VERIFIER SELON L'AXE
+        p.y >= this->botRight.y); 
 }
 
 
-void Rectangle::draw(){
-  glBegin(GL_LINE_STRIP);
+void Rectangle::draw(int isFilled){
+  if(isFilled){
+    glBegin(GL_POLYGON);
+  }
+  else{
+    glBegin(GL_LINE_STRIP);
+  }
       glColor3f(this->getColor().x,this->getColor().y,this->getColor().z );
       glVertex2f(this->getPosUpperLeft().x,this->getPosUpperLeft().y);
       glVertex2f(this->getPosBottomLeft().x,this->getPosBottomLeft().y);

@@ -12,7 +12,6 @@
 #include "helpers/RootDir.hpp"
 
 
-
 App::App(): App(2.0f){
     
 }
@@ -21,7 +20,22 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
 
     this->page = 1;
     startMenu();
-    
+
+    // EXEMPLE UTILISATION READER -> lire un niveau
+    Reader r(std::string(ROOT_DIR) + "src/levels.txt");
+    Level lvl = r.readNextLevel();
+    this->currentLevel = lvl;
+
+    // EXEMPLE UTILISATION QUADTREE -> créer le quadtree une fois après avoir chargé le niveaux en court
+    qt = Quadtree(glm::vec2((float)-1280/720, 1.0),glm::vec2((float)1280/720, -1.0));
+    for (int i = 0; i < (int)lvl.getObstacles().size(); i++) {
+      qt.addRectangleIntoSection(lvl.getObstacles()[i], 3);
+    }
+
+    // EXEMPLE UTILISATION RECHERCHE DANS LE QUADTREE -> à chaque fois pour savoir avec quoi le character va collisionner. listRInSec contient les rectangles à comparer avec la pos du joueur
+    std::vector<Rectangle> listRInSec;
+    listRInSec = qt.search(glm::vec2(-1.4, -0.8));
+
 }
 
 void App::LoadImage(const std::string& imagePath) {
@@ -99,13 +113,13 @@ void App::Render() {
     }
     if(page == 2){
         displayLevel();
+        qt.drawSection();
+
     }
-
-
 }
 
 void App::key_callback(int key, int /*scancode*/, int /*action*/, int /*mods*/) {
-    std::cout << key << std::endl;
+    // std::cout << key << std::endl;
     if(key == GLFW_KEY_ENTER && page == 1){
         std::cout << "Enter is pressed" << std::endl;
         page = 2;
@@ -154,18 +168,6 @@ void App::size_callback(int width, int height) {
 //     return glm::rotate(vec-center,  glm::radians(angle))+center;
 // }
 
-//A mettre dans Rectangle
-void drawRectangle(Rectangle rec){
-    glBegin(GL_POLYGON);
-        glColor3f(rec.getColor().x,rec.getColor().y,rec.getColor().z );
-        glVertex2f(rec.getPosUpperLeft().x,rec.getPosUpperLeft().y);
-        glVertex2f(rec.getPosBottomLeft().x,rec.getPosBottomLeft().y);
-        glVertex2f(rec.getPosBottomRight().x,rec.getPosBottomRight().y);
-        glVertex2f(rec.getPosUpperRight().x,rec.getPosUpperRight().y);
-    glEnd();
-}
-
-
 static App& get_app(GLFWwindow* window) {
     return *reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
 }
@@ -181,9 +183,9 @@ void App::startMenu(){
 void App::displayLevel(){
 
     for(int i=0; i<this->currentLevel.getObstacles().size(); i++){
-        drawRectangle(this->currentLevel.getObstacles()[i]);
+        this->currentLevel.getObstacles()[i].draw(1);
         //this->currentLevel.getObstacles()[i].displayValues();
     }
-    drawRectangle(this->currentLevel.getCharacter());
+    this->currentLevel.getCharacter().draw(1);
     
 }
