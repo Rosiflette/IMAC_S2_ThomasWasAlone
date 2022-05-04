@@ -15,6 +15,7 @@
 #include "Level.h"
 //A RETIRER
 #include "Quadtree.h"
+#include "Collision.h"
 #include "Reader.h"
 
 
@@ -36,6 +37,7 @@ public:
     void displayLevel();
     Level currentLevel;
     Quadtree qt;
+    float velocity;
 
 
 private: 

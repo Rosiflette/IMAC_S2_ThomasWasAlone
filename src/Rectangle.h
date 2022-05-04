@@ -13,7 +13,8 @@ class Rectangle{
         // 2 vertex that define the Rectangle
         glm::vec2 topLeft;
         glm::vec2 botRight;
-
+        float width;
+        float height;
         glm::vec3 color;
 
     public :

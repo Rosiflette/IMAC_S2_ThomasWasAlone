@@ -1,4 +1,5 @@
 #include "App.hpp"
+#include "Reader.h"
 
 #include <iostream>
 #include <string>
@@ -78,17 +79,30 @@ void App::Update() {
     //     startMenu();
     // }
 
+    Reader r(std::string(ROOT_DIR) + "src/levels.txt");
+    lvl = r.readNextLevel();
+
+    //bool colli = currentLevel.getCharacter().collision(currentLevel.getObstacles()[2]);
+    
+    
+    
+
     Render();
+
 }
 
 void App::Render() {
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+    //lvl.getCharacter().draw(1);
+    // glClearColor(0.f, 0.f, 0.f, 1.f);
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
     glMatrixMode(GL_MODELVIEW);
 
 
-    const float imageAngleRad = glm::radians(_imageAngle);
+    //const float imageAngleRad = glm::radians(_imageAngle);
     //Render the texture on the screen
 
     if(page == 1){
@@ -114,13 +128,23 @@ void App::Render() {
     if(page == 2){
         displayLevel();
         qt.drawSection();
+        
+        if(currentLevel.getCharacter().getPosUpperLeft().y > -0.7){
+            currentLevel.getCharacter().gravity(deltaTime);
+        }
+    }
 
+    if(velocity > 0){
+        velocity -= 0.15;
+    }
+    if(currentLevel.getCharacter().isJumping){ //remettre à false
+        currentLevel.getCharacter().jump(velocity, deltaTime);
     }
 }
 
-void App::key_callback(int key, int /*scancode*/, int /*action*/, int /*mods*/) {
+void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
     // std::cout << key << std::endl;
-    if(key == GLFW_KEY_ENTER && page == 1){
+    if(key == GLFW_KEY_ENTER && page == 1 ){
         std::cout << "Enter is pressed" << std::endl;
         page = 2;
     }
@@ -130,10 +154,14 @@ void App::key_callback(int key, int /*scancode*/, int /*action*/, int /*mods*/) 
     else if(key == GLFW_KEY_LEFT){
         currentLevel.getCharacter().move(-deltaTime);
     }
-    else if(key == GLFW_KEY_UP){
-        currentLevel.getCharacter().jump(deltaTime);
-    }
-    
+    else if(key == GLFW_KEY_UP && action == GLFW_PRESS){
+        if(currentLevel.getCharacter().isJumping == false){
+            velocity = 2.0;
+            currentLevel.getCharacter().isJumping = true;
+        }
+
+
+    } 
 }
 
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
@@ -182,7 +210,7 @@ void App::startMenu(){
 
 void App::displayLevel(){
 
-    for(int i=0; i<this->currentLevel.getObstacles().size(); i++){
+    for(int i=0; i<(int)this->currentLevel.getObstacles().size(); i++){
         this->currentLevel.getObstacles()[i].draw(1);
         //this->currentLevel.getObstacles()[i].displayValues();
     }
