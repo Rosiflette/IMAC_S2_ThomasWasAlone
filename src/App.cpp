@@ -30,12 +30,12 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
     // EXEMPLE UTILISATION QUADTREE -> créer le quadtree une fois après avoir chargé le niveaux en court
     qt = Quadtree(glm::vec2((float)-1280/720, 1.0),glm::vec2((float)1280/720, -1.0));
     for (int i = 0; i < (int)lvl.getObstacles().size(); i++) {
-      qt.addRectangleIntoSection(lvl.getObstacles()[i], 3);
+      qt.addRectangleIntoSection(lvl.getObstacles()[i], 1);
     }
 
     // EXEMPLE UTILISATION RECHERCHE DANS LE QUADTREE -> à chaque fois pour savoir avec quoi le character va collisionner. listRInSec contient les rectangles à comparer avec la pos du joueur
-    std::vector<Rectangle> listRInSec;
-    listRInSec = qt.search(glm::vec2(-1.4, -0.8));
+    // std::vector<Rectangle> listRInSec;
+    // listRInSec = qt.search(glm::vec2(-1.4, -0.8));
 
 }
 
@@ -82,9 +82,6 @@ void App::Update() {
     Reader r(std::string(ROOT_DIR) + "src/levels.txt");
     lvl = r.readNextLevel();
 
-    //bool colli = currentLevel.getCharacter().collision(currentLevel.getObstacles()[2]);
-    
-    
     
 
     Render();
@@ -129,9 +126,9 @@ void App::Render() {
         displayLevel();
         qt.drawSection();
         
-        if(currentLevel.getCharacter().getPosUpperLeft().y > -0.7){
-            currentLevel.getCharacter().gravity(deltaTime);
-        }
+        // if(!currentLevel.getCharacter().isCollision(qt.search(currentLevel.getCharacter().getPosUpperLeft()))){
+        //     currentLevel.getCharacter().gravity(deltaTime);
+        // }
     }
 
     if(velocity > 0){
@@ -143,23 +140,29 @@ void App::Render() {
 }
 
 void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
+
+    std::vector<Rectangle> listRInSec;
+    listRInSec = qt.search(currentLevel.getCharacter().getPosUpperLeft());
+    velocity = 2.0;
     // std::cout << key << std::endl;
     if(key == GLFW_KEY_ENTER && page == 1 ){
         std::cout << "Enter is pressed" << std::endl;
         page = 2;
     }
-    else if(key == GLFW_KEY_RIGHT){
-        currentLevel.getCharacter().move(deltaTime);
+    else if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS){
+        if(!currentLevel.getCharacter().isCollision(listRInSec))
+            currentLevel.getCharacter().move(velocity,deltaTime);
     }
-    else if(key == GLFW_KEY_LEFT){
-        currentLevel.getCharacter().move(-deltaTime);
+    else if(key == GLFW_KEY_LEFT && action == GLFW_PRESS){
+        if(!currentLevel.getCharacter().isCollision(listRInSec)){
+            currentLevel.getCharacter().move(velocity, -deltaTime);
+        }
     }
     else if(key == GLFW_KEY_UP && action == GLFW_PRESS){
         if(currentLevel.getCharacter().isJumping == false){
-            velocity = 2.0;
+            //velocity = 2.0;
             currentLevel.getCharacter().isJumping = true;
         }
-
 
     } 
 }

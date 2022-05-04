@@ -12,9 +12,14 @@ void Character::displayValues(){
   std::cout << "Position arrivée x, y : " << this->positionArrivee.x << "," << this->positionArrivee.y << std::endl;
 }
 
-void Character::move(float deltaTime){
-    float speed = 3.0;
-    this->topLeft.x += speed*deltaTime;
+void Character::move(float velocity, float deltaTime){
+    if(velocity < 0){
+      isMoving= false;
+    }
+    else{
+      this->topLeft.x += velocity*deltaTime;
+    }
+    
 }
 
 void Character::jump(float velocity, float deltaTime){
@@ -56,4 +61,12 @@ bool Character::collision(Rectangle r){
         
         return false;
     }
+}
+
+bool Character::isCollision(std::vector<Rectangle> list){
+  for(int i = 0; i<list.size(); i++){
+    if(collision(list[i])){
+      return true;
+    }
+  }
 }
