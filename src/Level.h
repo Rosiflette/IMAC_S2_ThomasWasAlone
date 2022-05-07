@@ -28,6 +28,8 @@ class Level{
         this->obstacles.push_back(r);
       }
 
+      void moveBack();
+
 };
 
 

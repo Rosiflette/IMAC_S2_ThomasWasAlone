@@ -10,9 +10,7 @@ const int SIZE_QUADTREE = 100;
 class Quadtree{
 
     private :
-
         Rectangle section;
-
         std::vector<Rectangle> listRectangle;
 
         Quadtree* sectNO; // Section en haute à gauche
@@ -30,8 +28,10 @@ class Quadtree{
         void drawSection();
         bool isLeaf();
         std::vector<Rectangle> search(glm::vec2 position);
+        std::vector<Rectangle> listRSection(glm::vec2 topLeft, glm::vec2 botRight);
 
 
+        
 };
 
 #endif // QUADTREE_H
