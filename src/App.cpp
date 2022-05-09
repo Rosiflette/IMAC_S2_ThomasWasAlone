@@ -33,6 +33,10 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
       qt.addRectangleIntoSection(lvl.getObstacles()[i], 3);
     }
 
+    //Initialiser le joueur
+    numChar = 0;
+    
+
 }
 
 void App::LoadImage(const std::string& imagePath) {
@@ -88,29 +92,30 @@ void App::Render() {
         displayLevel();
         qt.drawSection();
 
-        glm::vec2 mv = {0,currentLevel.getCharacter().gravity(deltaTime)};
+        
+        glm::vec2 mv = {0,currentLevel.getCharacters()[numChar].gravity(deltaTime)};
         int direction = 1;
         std::vector<Rectangle> listRInSec, listRInSecBotRight;
-        listRInSec = qt.search(currentLevel.getCharacter().getPosUpperLeft());
-        listRInSecBotRight = qt.search(currentLevel.getCharacter().getPosBottomRight());
+        listRInSec = qt.search(currentLevel.getCharacters()[numChar].getPosUpperLeft());
+        listRInSecBotRight = qt.search(currentLevel.getCharacters()[numChar].getPosBottomRight());
         listRInSec.insert(listRInSec.end(), listRInSecBotRight.begin(), listRInSecBotRight.end());
 
         if(velocity > 0){
             velocity -= 0.15;
         }
-        if(currentLevel.getCharacter().isJumping){
+        if(currentLevel.getCharacters()[numChar].isJumping){
             direction = 0;
-            mv.y = currentLevel.getCharacter().jump(velocity, deltaTime);
+            mv.y = currentLevel.getCharacters()[numChar].jump(velocity, deltaTime);
         }
 
-        if(!currentLevel.getCharacter().isCollision(listRInSec, mv)){
-            currentLevel.getCharacter().setPositionY(currentLevel.getCharacter().getPosUpperLeft().y + mv.y);
+        if(!currentLevel.getCharacters()[numChar].isCollision(listRInSec, mv)){
+            currentLevel.getCharacters()[numChar].setPositionY(currentLevel.getCharacters()[numChar].getPosUpperLeft().y + mv.y);
         }
         else {
 
-            currentLevel.getCharacter().isJumping = false;
+            currentLevel.getCharacters()[numChar].isJumping = false;
             for (int i = 0; i < listRInSec.size(); i++){
-                currentLevel.getCharacter().setPositionIfCollision(listRInSec[i], mv.y, direction);
+                currentLevel.getCharacters()[numChar].setPositionIfCollision(listRInSec[i], mv.y, direction);
             }
         }
       
@@ -128,27 +133,38 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
     }
     else{
         std::vector<Rectangle> listRInSec, listRInSecBotRight;
-        listRInSec = qt.search(currentLevel.getCharacter().getPosUpperLeft());
-        listRInSecBotRight = qt.search(currentLevel.getCharacter().getPosBottomRight());
+        listRInSec = qt.search(currentLevel.getCharacters()[numChar].getPosUpperLeft());
+        listRInSecBotRight = qt.search(currentLevel.getCharacters()[numChar].getPosBottomRight());
         listRInSec.insert(listRInSec.end(), listRInSecBotRight.begin(), listRInSecBotRight.end());
 
         float mv = 0.0;
         int direction = -1;
 
-        std::cout << key << std::endl;
+        //std::cout << key << std::endl;
 
         if(key == GLFW_KEY_RIGHT){
-            mv = currentLevel.getCharacter().calcMove(velocity,deltaTime);
+            mv = currentLevel.getCharacters()[numChar].calcMove(velocity,deltaTime);
             direction = 2;
         }
         if(key == GLFW_KEY_LEFT){
-            mv = currentLevel.getCharacter().calcMove(velocity,-deltaTime);
+            mv = currentLevel.getCharacters()[numChar].calcMove(velocity,-deltaTime);
             direction = 3;
         }
         if(key == GLFW_KEY_UP){
-            if(currentLevel.getCharacter().isJumping == false){
+            if(currentLevel.getCharacters()[numChar].isJumping == false){
                 velocity = 2.0;
-                currentLevel.getCharacter().isJumping = true;
+                currentLevel.getCharacters()[numChar].isJumping = true;
+            }
+        }
+        //swap current player
+        if(key == GLFW_KEY_TAB){
+            int nbChar = currentLevel.getCharacters().size();
+            
+            if(numChar < nbChar-1){
+                numChar ++;
+            }
+            else{
+                numChar = 0;
             }
         }
 
@@ -163,10 +179,11 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
 void App::checkCollison(std::vector<Rectangle> list, float mv, int direction){
     int col = 0;
     for(int i = 0; i<(int)list.size(); i++){
-        col |= currentLevel.getCharacter().setPositionIfCollision(list[i], mv, direction);
+        col |= currentLevel.getCharacters()[numChar].setPositionIfCollision(list[i], mv, direction);
+        
     }
     if(col == 0){
-        currentLevel.getCharacter().setPositionX(currentLevel.getCharacter().getPosUpperLeft().x+mv);
+        currentLevel.getCharacters()[numChar].setPositionX(currentLevel.getCharacters()[numChar].getPosUpperLeft().x+mv);
     }
 }
 
@@ -220,7 +237,9 @@ void App::displayLevel(){
     for(int i=0; i<(int)this->currentLevel.getObstacles().size(); i++){
         this->currentLevel.getObstacles()[i].draw(1);
     }
-    this->currentLevel.getCharacter().draw(1);
+    for(int i=0; i<(int)this->currentLevel.getCharacters().size(); i++){
+        this->currentLevel.getCharacters()[i].draw(1);
+    }
 }
 
 

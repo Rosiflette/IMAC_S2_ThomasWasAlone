@@ -92,7 +92,7 @@ char Character::whereIsCollision(Rectangle r, float mv){
     return 'r';
   }
   //a gauche
-  if(this->getPosBottomRight().x+mv < r.getPosUpperLeft().x && this->getPosUpperLeft().x+mv > r.getPosUpperLeft().x){
+  if(this->getPosUpperLeft().x+mv < r.getPosBottomRight().x && this->getPosBottomRight().x+mv > r.getPosBottomRight().x){
     std::cout<< "l" << std::endl;
     return 'l';
   }
@@ -113,6 +113,7 @@ void Character::setPositionX(float newPos){
 }
 
 void Character::setPositionY(float newPos){
+  
   this->topLeft.y = newPos;
 }
 

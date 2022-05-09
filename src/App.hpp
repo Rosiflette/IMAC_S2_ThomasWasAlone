@@ -38,6 +38,8 @@ public:
     Level currentLevel;
     Quadtree qt;
     float velocity;
+    int numChar; //indice du character
+
 
 
 private: 
