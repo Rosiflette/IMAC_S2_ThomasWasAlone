@@ -126,9 +126,9 @@ void App::Render() {
         displayLevel();
         qt.drawSection();
         
-        // if(!currentLevel.getCharacter().isCollision(qt.search(currentLevel.getCharacter().getPosUpperLeft()))){
-        //     currentLevel.getCharacter().gravity(deltaTime);
-        // }
+        if(!currentLevel.getCharacter().isCollision(qt.search(currentLevel.getCharacter().getPosUpperLeft()))){
+            currentLevel.getCharacter().gravity(deltaTime);
+        }
     }
 
     if(velocity > 0){
