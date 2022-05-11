@@ -120,14 +120,6 @@ bool Quadtree::isLeaf(){
 std::vector<Rectangle> Quadtree::search(glm::vec2 position){
 
     if(this->isLeaf()){
-        // std::cout << "---------------"  << std::endl;
-        // std::cout << "Liste rectangles section :" << std::endl;
-        // for(int i = 0; i < (int)this->listRectangle.size(); i++){
-        //     std::cout << i << " : " ;
-        //     listRectangle[i].displayValues();
-        //     std::cout << " ; ";
-        // }
-        // std::cout << listRectangle.size() << std::endl;
         return listRectangle;
     }
 
@@ -144,4 +136,7 @@ std::vector<Rectangle> Quadtree::search(glm::vec2 position){
         return this->sectSO->search(position);
     }
 
+    return {};
+
 }
+

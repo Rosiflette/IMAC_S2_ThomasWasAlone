@@ -15,7 +15,6 @@
 #include "Level.h"
 //A RETIRER
 #include "Quadtree.h"
-#include "Collision.h"
 #include "Reader.h"
 
 
@@ -35,15 +34,22 @@ public:
     //fonctions qu'on a ajouté
     void startMenu();
     void displayLevel();
+    void Camera();
     Level currentLevel;
     Quadtree qt;
     float velocity;
+    int numChar; //indice du character
+
 
 
 private: 
     void LoadImage(const std::string& imagePath);
     void Render();
     glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
+
+    void generateTexture();
+    void textureLvl();
+    void checkCollison(std::vector<Rectangle> list, float mv, int direction);
 
     int _width;
     int _height;
