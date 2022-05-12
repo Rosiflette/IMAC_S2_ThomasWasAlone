@@ -94,6 +94,12 @@ void App::Render() {
         generateTexture();
         displayLevel();
         qt.drawSection();
+        drawArrow();
+
+
+        if(checkFinalPos()){
+            page = 3;
+        }
 
         
         glm::vec2 mv = {0,currentLevel.getCharacters()[numChar].gravity(deltaTime)};
@@ -129,6 +135,7 @@ void App::Render() {
 }
 
 void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
+    
     velocity = 2.0;
     if (action == GLFW_RELEASE)
         return;
@@ -193,6 +200,16 @@ void App::checkCollison(std::vector<Rectangle> list, float mv, int direction){
     }
 }
 
+bool App::checkFinalPos(){
+    //check if all characters are on their final position
+    for(int c=0; c < (int)currentLevel.getCharacters().size(); c++){
+        if(!currentLevel.getCharacters()[c].isInFinalPos()){
+            return false;
+        }
+    }
+    return true;
+}
+
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
 }
 
@@ -248,11 +265,17 @@ void App::textureLvl(){
 }
 
 void App::displayLevel(){
+    //draw map
     for(int i=0; i<(int)this->currentLevel.getObstacles().size(); i++){
         this->currentLevel.getObstacles()[i].draw(1);
     }
     for(int i=0; i<(int)this->currentLevel.getCharacters().size(); i++){
+        //draw character
         this->currentLevel.getCharacters()[i].draw(1);
+        //draw final position
+        this->currentLevel.getCharacters()[i].drawFinalPos();
+        
+        
     }
 }
 
@@ -294,3 +317,14 @@ void App::generateTexture(){
 //     }
 
 // }
+
+void App::drawArrow(){
+    Character currentPlayer = currentLevel.getCharacters()[numChar];
+    float characMiddle = currentPlayer.getPosUpperLeft().x+currentPlayer.getWidth()/2;
+    glBegin(GL_TRIANGLES);
+      glColor3f(1,1,1);
+      glVertex2f(characMiddle, currentPlayer.getPosUpperLeft().y + 0.02);
+      glVertex2f(characMiddle - 0.02,currentPlayer.getPosUpperLeft().y + 0.05);
+      glVertex2f(characMiddle + 0.02, currentPlayer.getPosUpperLeft().y + 0.05);
+    glEnd();
+}

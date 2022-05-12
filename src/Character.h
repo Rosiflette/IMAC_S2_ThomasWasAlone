@@ -4,6 +4,7 @@
 #include "Rectangle.h"
 #include <vector>
 
+
 class Character : public Rectangle {
   private : // récupère les mêmes attributs et fonctions que dans Rectangle
     glm::vec2 positionArrivee;
@@ -11,6 +12,10 @@ class Character : public Rectangle {
     
 
   public:
+    glm::vec2 getPosFinal();
+    void drawFinalPos();
+    bool isInFinalPos();
+
     bool isJumping;
     bool isMoving;
     Character();
