@@ -16,6 +16,7 @@
 //A RETIRER
 #include "Quadtree.h"
 #include "Reader.h"
+#include "Camera.h"
 
 
 
@@ -34,11 +35,13 @@ public:
     //fonctions qu'on a ajouté
     void startMenu();
     void displayLevel();
-    void Camera();
+
     Level currentLevel;
     Quadtree qt;
     float velocity;
     int numChar; //indice du character
+    int getHeight();
+    int getWidth();
 
 
 
@@ -62,6 +65,7 @@ private:
     Level lvl;
     Rectangle test;
     float deltaTime;
+    Camera camera;
 
 
     int page; // 1 = menu, 2 = jeu

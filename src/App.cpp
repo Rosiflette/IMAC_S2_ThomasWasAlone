@@ -35,6 +35,9 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
 
     //Initialiser le joueur
     numChar = 0;
+
+    //Création de la caméra
+    camera = Camera();
     
 
 }
@@ -118,6 +121,9 @@ void App::Render() {
                 currentLevel.getCharacters()[numChar].setPositionIfCollision(listRInSec[i], mv.y, direction);
             }
         }
+
+        camera.followCharacter(currentLevel.getCharacters()[numChar]);
+        std::cout << "Position camera x : " << camera.getPosition().x << "  Position camera y : " << camera.getPosition().y << std::endl;
       
     }
 }
@@ -213,6 +219,14 @@ void App::size_callback(int width, int height) {
     } else {
         glOrtho(-_viewSize / 2.0f, _viewSize / 2.0f, -_viewSize / 2.0f / aspectRatio, _viewSize / 2.0f / aspectRatio, -1.0f, 1.0f);
     }
+}
+
+int App::getHeight(){
+    return _height;
+}
+
+int App::getWidth(){
+    return _width;
 }
 
 static App& get_app(GLFWwindow* window) {
