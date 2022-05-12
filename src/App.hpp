@@ -47,9 +47,14 @@ private:
     void Render();
     glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
 
+
+    bool checkFinalPos();
+
     void generateTexture();
     void textureLvl();
     void checkCollison(std::vector<Rectangle> list, float mv, int direction);
+    void drawArrow();
+    void drawEnd();
 
     int _width;
     int _height;

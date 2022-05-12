@@ -1,4 +1,6 @@
 #include "Character.h"
+#include "glad/glad.h"
+#include <stdlib.h>
 
 Character::Character(){}
 
@@ -6,6 +8,27 @@ Character::Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 
   this->positionArrivee = positionArrivee;
   this->speed = 1.0;
   this->isJumping = false;
+}
+
+glm::vec2 Character::getPosFinal(){
+  return this->positionArrivee;
+}
+
+void Character::drawFinalPos(){
+  glBegin(GL_LINE_LOOP);
+      glColor3f(0.2,0.2,0.2);
+      glVertex2f(this->getPosFinal().x,this->getPosFinal().y); //en bas a droite
+      glVertex2f(this->getPosFinal().x,this->getPosFinal().y + this->getHeight());
+      glVertex2f(this->getPosFinal().x-this->getWidth(),this->getPosFinal().y + this->getHeight());
+      glVertex2f(this->getPosFinal().x-this->getWidth(),this->getPosFinal().y);
+  glEnd();
+}
+
+bool Character::isInFinalPos(){
+  if(abs(this->getPosFinal().x - this->getPosBottomRight().x) < 0.01 && abs(this->getPosFinal().y - this->getPosBottomRight().y) < 0.01 ){
+    return true;
+  }
+  return false;
 }
 
 void Character::displayValues(){
