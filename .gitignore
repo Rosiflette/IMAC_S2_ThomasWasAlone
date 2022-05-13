@@ -14,3 +14,7 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 *.a
+
+.vscode/settings.json
+
+src/helpers/RootDir.hpp

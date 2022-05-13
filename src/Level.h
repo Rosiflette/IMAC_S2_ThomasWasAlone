@@ -12,21 +12,28 @@ class Level{
     private :
       std::vector<Rectangle> obstacles;
       Character character;
+      std::vector<Character> characters;
 
     public :
       Level();
 
       // GETTER
-      Character getCharacter();
+      Character& getCharacter();
+      std::vector<Character>& getCharacters();
       std::vector<Rectangle> getObstacles();
 
       // SETTER
       void setCharacter(Character c){
         this->character = c;
       }
+      void addCharacters(Character c){
+        this->characters.push_back(c);
+      }
       void addObsacles(Rectangle r){
         this->obstacles.push_back(r);
       }
+
+      void moveBack();
 
 };
 
