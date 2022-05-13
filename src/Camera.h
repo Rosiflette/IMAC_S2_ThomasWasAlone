@@ -20,6 +20,10 @@ class Camera{
 
     //getters
     glm::vec2 getPosition();
+    glm::vec2 getTopLeft();
+    glm::vec2 getTopRight();
+    glm::vec2 getBottomLeft();
+    glm::vec2 getBottomRight();
     
 };
 

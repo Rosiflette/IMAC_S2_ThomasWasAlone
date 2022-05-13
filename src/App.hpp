@@ -54,6 +54,7 @@ private:
     bool checkFinalPos();
 
     void generateTexture();
+    void generateTextureBackground();
     void textureLvl();
     void checkCollison(std::vector<Rectangle> list, float mv, int direction);
     void drawArrow();

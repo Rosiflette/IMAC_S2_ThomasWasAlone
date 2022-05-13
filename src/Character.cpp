@@ -61,6 +61,16 @@ float Character::jump(float velocity, float deltaTime){
     isJumping = false;
   }
   if(isJumping != false){
+    glm::vec2 positionRel = glm::vec2(0,0);
+    float g = 9.81;
+    float pi = 3.14;
+    int angleInit = pi/3;
+    int t=0;
+    double v_x = cos(angleInit)*velocity;
+    double v_y = sin(angleInit)*velocity;
+    positionRel.x=(int)(v_x*t);
+    positionRel.y=(int)((v_y*t)-((g*t*t)/2000));
+    this->topLeft += positionRel;
     return velocity*deltaTime;
   }
   return 0;

@@ -28,7 +28,7 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
     this->currentLevel = lvl;
 
     // EXEMPLE UTILISATION QUADTREE -> créer le quadtree une fois après avoir chargé le niveaux en court
-    qt = Quadtree(glm::vec2((float)-1280/720, 1.0),glm::vec2((float)1280/720, -1.0));
+    qt = Quadtree(glm::vec2((float)-1280/720, 1.0),glm::vec2(6,-1.0));
     for (int i = 0; i < (int)lvl.getObstacles().size(); i++) {
       qt.addRectangleIntoSection(lvl.getObstacles()[i], 3);
     }
@@ -91,7 +91,7 @@ void App::Render() {
         generateTexture();
     }
     if(page == 2){
-        generateTexture();
+        generateTextureBackground();
         displayLevel();
         qt.drawSection();
         drawArrow();
@@ -302,6 +302,42 @@ void App::generateTexture(){
         glDisable(GL_TEXTURE_2D);
 }
 
+
+void App::generateTextureBackground(){
+    //Render the texture on the screen
+        glm::vec2 tl = glm::vec2(camera.getPosition().x - (float)1280/720, camera.getPosition().y + 1);
+        glm::vec2 tr = glm::vec2(camera.getPosition().x + (float)1280/720 , camera.getPosition().y + 1);
+        glm::vec2 bl = glm::vec2(camera.getPosition().x - (float)1280/720, camera.getPosition().y - 1);
+        glm::vec2 br = glm::vec2(camera.getPosition().x + (float)1280/720, camera.getPosition().y - 1);
+
+        
+
+        std::cout << "tl.x : "<< tl.x<<std::endl;
+        std::cout << "tl.y : "<< tl.y<<std::endl;
+        
+        std::cout << "br.x : "<< br.x<<std::endl;
+        std::cout << "br.y : "<< br.y<<std::endl;
+
+
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, _textureId);
+
+        //glColor3f(1.0f, 1.0f, 1.0f);
+        glBegin(GL_QUADS);
+            
+            glTexCoord2d(0,0); glVertex2f(tl.x, 1);
+
+            
+            glTexCoord2d(1,0); glVertex2f(tr.x, 1);
+
+         
+            glTexCoord2d(1,1); glVertex2f(br.x, -1);
+
+           
+            glTexCoord2d(0,1); glVertex2f(bl.x,-1);
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+}
 // if(key == GLFW_KEY_DOWN){
 //     int col = 0;
 //     float mv = currentLevel.getCharacter().calcMove(velocity,-deltaTime);
@@ -328,3 +364,4 @@ void App::drawArrow(){
       glVertex2f(characMiddle + 0.02, currentPlayer.getPosUpperLeft().y + 0.05);
     glEnd();
 }
+
