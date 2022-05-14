@@ -98,18 +98,12 @@ void App::Render() {
       // lastMove = currentLevel.getCharacters()[numChar].getPosUpperLeft();
       glm::vec2 deplacement = currentLevel.getCharacters()[numChar].getValMouvments(glm::vec2(0,gravity));
 
-      std::vector<Rectangle> listRInSec, listRInSecBotRight, listRInSecBotLeft, listRInSecTopRight;
-      listRInSec = qt.search(currentLevel.getCharacters()[numChar].getPosUpperLeft());
-      listRInSecBotRight = qt.search(currentLevel.getCharacters()[numChar].getPosBottomRight());
-      listRInSec.insert(listRInSec.end(), listRInSecBotRight.begin(), listRInSecBotRight.end());
-      listRInSecBotLeft = qt.search(currentLevel.getCharacters()[numChar].getPosBottomLeft());
-      listRInSec.insert(listRInSec.end(), listRInSecBotLeft.begin(), listRInSecBotLeft.end());
-      listRInSecTopRight = qt.search(currentLevel.getCharacters()[numChar].getPosUpperRight());
-      listRInSec.insert(listRInSec.end(), listRInSecTopRight.begin(), listRInSecTopRight.end());
+      std::vector<Rectangle> listRInSec;
+
+      listRInSec = qt.seachListRectangles(currentLevel.getCharacters()[numChar].getPosUpperLeft(), currentLevel.getCharacters()[numChar].getPosBottomRight(),currentLevel.getCharacters()[numChar].getPosBottomLeft(), currentLevel.getCharacters()[numChar].getPosUpperRight());
 
       int i = 0;
       bool isColliding = false;
-
 
       if( deplacement.x > deplacement.y){
       while(i < (int)listRInSec.size() && !isColliding){
