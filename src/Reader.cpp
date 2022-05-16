@@ -36,6 +36,18 @@ Level Reader::readNextLevel(){
         lvl.addCharacters(c);
         delete [] valueArray;
         break;}
+
+      case 'p':
+      {
+        line = line.substr(1, line.length());
+        int length = 9;
+        float* valueArray = new float [length];
+        split(line, delimiter, valueArray);
+        glm::vec2 p (glm::vec2(valueArray[0],valueArray[1]));
+        lvl.setPosBottomRightLvl(p);
+        delete [] valueArray;
+        break;
+      }
       default:
         std::cout << "Elément non reconnu dans la lecture du fichier" << std::endl;
 

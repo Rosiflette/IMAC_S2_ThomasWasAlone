@@ -26,9 +26,10 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
     Reader r(std::string(ROOT_DIR) + "src/levels.txt");
     Level lvl = r.readNextLevel();
     this->currentLevel = lvl;
+    //std::cout << "coord : " << currentLevel.getPosBottomRightLvl().x << " " << currentLevel.getPosBottomRightLvl().y << std::endl;
 
     // EXEMPLE UTILISATION QUADTREE -> créer le quadtree une fois après avoir chargé le niveaux en court
-    qt = Quadtree(glm::vec2((float)-1280/720, 1.0),glm::vec2(6,-1.0));
+    qt = Quadtree(glm::vec2((float)-1280/720, 1.0),currentLevel.getPosBottomRightLvl());
     for (int i = 0; i < (int)lvl.getObstacles().size(); i++) {
       qt.addRectangleIntoSection(lvl.getObstacles()[i], 3);
     }
@@ -102,6 +103,7 @@ void App::Render() {
         }
 
         
+        
         glm::vec2 mv = {0,currentLevel.getCharacters()[numChar].gravity(deltaTime)};
         int direction = 1;
         std::vector<Rectangle> listRInSec, listRInSecBotRight;
@@ -124,15 +126,33 @@ void App::Render() {
 
             currentLevel.getCharacters()[numChar].isJumping = false;
             for (int i = 0; i < listRInSec.size(); i++){
+                
                 currentLevel.getCharacters()[numChar].setPositionIfCollision(listRInSec[i], mv.y, direction);
             }
         }
-
-        camera.followCharacter(currentLevel.getCharacters()[numChar]);
-        std::cout << "Position camera x : " << camera.getPosition().x << "  Position camera y : " << camera.getPosition().y << std::endl;
+        setCamera();
+        // camera.followCharacter(currentLevel.getCharacters()[numChar]);
+        // std::cout << "Position camera x : " << camera.getPosition().x << "  Position camera y : " << camera.getPosition().y << std::endl;
       
     }
 }
+
+
+void App::setCamera(){
+    //follow on horizontal axe
+    if(currentLevel.getCharacters()[numChar].getPosUpperLeft().x > 0 && currentLevel.getCharacters()[numChar].getPosUpperRight().x < currentLevel.getPosBottomRightLvl().x - 1.78){
+        std::cout << "char : " << currentLevel.getCharacters()[numChar].getPosUpperRight().x << std::endl;
+        std::cout << "max : " << currentLevel.getPosBottomRightLvl().x - 1.78 << std::endl;
+        camera.followCharacter(currentLevel.getCharacters()[numChar]);
+    }
+    //follow on vertical axe
+    if(currentLevel.getCharacters()[numChar].getPosUpperLeft().y < 0 && currentLevel.getCharacters()[numChar].getPosUpperRight().y > currentLevel.getPosBottomRightLvl().y - 1){
+        camera.followCharacter(currentLevel.getCharacters()[numChar]);
+    }
+    
+    
+}
+    
 
 void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
     
@@ -152,6 +172,7 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
 
         float mv = 0.0;
         int direction = -1;
+        
 
         //std::cout << key << std::endl;
 
@@ -309,16 +330,7 @@ void App::generateTextureBackground(){
         glm::vec2 tr = glm::vec2(camera.getPosition().x + (float)1280/720 , camera.getPosition().y + 1);
         glm::vec2 bl = glm::vec2(camera.getPosition().x - (float)1280/720, camera.getPosition().y - 1);
         glm::vec2 br = glm::vec2(camera.getPosition().x + (float)1280/720, camera.getPosition().y - 1);
-
         
-
-        std::cout << "tl.x : "<< tl.x<<std::endl;
-        std::cout << "tl.y : "<< tl.y<<std::endl;
-        
-        std::cout << "br.x : "<< br.x<<std::endl;
-        std::cout << "br.y : "<< br.y<<std::endl;
-
-
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, _textureId);
 

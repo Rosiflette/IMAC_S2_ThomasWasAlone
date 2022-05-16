@@ -18,3 +18,7 @@ std::vector<Character>& Level::getCharacters(){
 std::vector<Rectangle> Level::getObstacles(){
   return obstacles;
 }
+
+glm::vec2& Level::getPosBottomRightLvl(){
+  return posBottomRightLvl;
+}

@@ -49,7 +49,7 @@ private:
     void LoadImage(const std::string& imagePath);
     void Render();
     glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
-
+    void setCamera();
 
     bool checkFinalPos();
 

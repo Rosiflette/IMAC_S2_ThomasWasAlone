@@ -126,7 +126,7 @@ char Character::whereIsCollision(Rectangle r, float mv){
   }
   //a gauche
   if(this->getPosUpperLeft().x+mv < r.getPosBottomRight().x && this->getPosBottomRight().x+mv > r.getPosBottomRight().x){
-    std::cout<< "l" << std::endl;
+    //std::cout<< "l" << std::endl;
     return 'l';
   }
 }
