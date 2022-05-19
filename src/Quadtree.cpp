@@ -37,9 +37,9 @@ int Quadtree::addRectangleIntoSection(Rectangle r, int currentHigh){
                 if(isAllreadyAdd[0] == false){
                     this->sectNO->addRectangleIntoSection(r, currentHigh-1);
                     isAllreadyAdd[0] = true;
-                
+
                 }
-                 
+
             }
             // Rectangle is in botLeftTree
             else {
@@ -52,7 +52,7 @@ int Quadtree::addRectangleIntoSection(Rectangle r, int currentHigh){
                      this->sectSO->addRectangleIntoSection(r, currentHigh-1);
                      isAllreadyAdd[1] = true;
                  }
-                 
+
             }
         }
         else
@@ -63,7 +63,7 @@ int Quadtree::addRectangleIntoSection(Rectangle r, int currentHigh){
                     this->sectNE = new Quadtree(
                         glm::vec2(secX, section.getPosUpperLeft().y),
                         glm::vec2(section.getPosBottomRight().x, secY));
-                   
+
                 }
                 if(isAllreadyAdd[2] == false){
                     this->sectNE->addRectangleIntoSection(r, currentHigh-1);
@@ -140,3 +140,29 @@ std::vector<Rectangle> Quadtree::search(glm::vec2 position){
 
 }
 
+std::vector<Rectangle> Quadtree::seachListRectangles(glm::vec2 topLeft, glm::vec2 topRight, glm::vec2 botLeft, glm::vec2 botRight){
+  std::vector<Rectangle> list = search(topLeft);
+  std::vector<Rectangle> listTR = search(topRight);
+  std::vector<Rectangle> listBL = search(botLeft);
+  std::vector<Rectangle> listBR = search(botRight);
+  list = addIfNotExist(list, listTR);
+  list = addIfNotExist(list, listBL);
+  list = addIfNotExist(list, listBR);
+  return list;
+}
+
+std::vector<Rectangle> Quadtree::addIfNotExist(std::vector<Rectangle> list, std::vector<Rectangle> toAdd){
+  bool t ;
+    for(int i = 0; i < toAdd.size(); i++){
+      t=false;
+      for(int j = 0; j < list.size(); j++){
+      if(list[j].getPosUpperLeft().x == toAdd[i].getPosUpperLeft().x && list[j].getPosUpperLeft().y == toAdd[i].getPosUpperLeft().y){
+        t=true;
+      }
+    }
+    if(t==false){
+      list.push_back(toAdd[i]);
+    }
+  }
+  return list;
+}
