@@ -42,6 +42,8 @@ public:
     int numChar; //indice du character
     int getHeight();
     int getWidth();
+    glm::vec2 topLeftLvl;
+    glm::vec2 bottomRightLvl;
 
 
 
@@ -73,10 +75,11 @@ private:
     float deltaTime;
     Camera camera;
 
+    bool isDead();
+    void readLvl();
+    
 
     int page; // 1 = menu, 2 = jeu
     
 };
 
-
-void drawRectangle(Rectangle rec);

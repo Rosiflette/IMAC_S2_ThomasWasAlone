@@ -29,3 +29,4 @@ glm::vec2 Camera::getPosition(){
     return glm::vec2(this->position.x, this->position.y);
 }
 
+
