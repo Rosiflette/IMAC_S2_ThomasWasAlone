@@ -25,7 +25,7 @@ public:
     App();
     App(float viewSize);
     void Update();
-    
+
     // callbacks users input
     void key_callback(int key, int scancode, int action, int mods);
     void mouse_button_callback(int button, int action, int mods);
@@ -39,13 +39,14 @@ public:
     Level currentLevel;
     Quadtree qt;
     float velocity;
+    // glm::vec2 lastMove;
     int numChar; //indice du character
     int getHeight();
     int getWidth();
 
 
 
-private: 
+private:
     void LoadImage(const std::string& imagePath);
     void Render();
     glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
@@ -75,7 +76,7 @@ private:
 
 
     int page; // 1 = menu, 2 = jeu
-    
+
 };
 
 

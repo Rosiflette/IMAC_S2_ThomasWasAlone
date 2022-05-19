@@ -29,9 +29,11 @@ class Quadtree{
         bool isLeaf();
         std::vector<Rectangle> search(glm::vec2 position);
         std::vector<Rectangle> listRSection(glm::vec2 topLeft, glm::vec2 botRight);
+        std::vector<Rectangle> seachListRectangles(glm::vec2 topLeft, glm::vec2 topRight, glm::vec2 botLeft, glm::vec2 botRight);
+        std::vector<Rectangle> addIfNotExist(std::vector<Rectangle> list, std::vector<Rectangle> toAdd);
 
 
-        
+
 };
 
 #endif // QUADTREE_H
