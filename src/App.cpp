@@ -94,20 +94,15 @@ void App::Render() {
       if(checkFinalPos()){
           page = 3;
       }
+      if(isDead()){
+          readLvl();
+      }
 
       float gravity = -0.001; //-0.001
       // lastMove = currentLevel.getCharacters()[numChar].getPosUpperLeft();
       glm::vec2 deplacement = currentLevel.getCharacters()[numChar].getValMouvments(glm::vec2(0,gravity));
-        if(isDead()){
-            readLvl();
-        }
-        
 
       std::vector<Rectangle> listRInSec;
-
-        if(checkFinalPos()){
-            page = 3;
-        }
 
       listRInSec = qt.seachListRectangles(currentLevel.getCharacters()[numChar].getPosUpperLeft(), currentLevel.getCharacters()[numChar].getPosBottomRight(),currentLevel.getCharacters()[numChar].getPosBottomLeft(), currentLevel.getCharacters()[numChar].getPosUpperRight());
 
@@ -127,6 +122,47 @@ void App::Render() {
 
       }
       i=0;
+    }
+      while(i < (int)listRInSec.size() && !isColliding){
+        isColliding = currentLevel.getCharacters()[numChar].collision(listRInSec[i], deplacement);
+        i++;
+      }
+      if(isColliding){
+        deplacement.y = currentLevel.getCharacters()[numChar].collisionVertical(listRInSec[--i], deplacement);
+        isColliding = false;
+        currentLevel.getCharacters()[numChar].setPositionY(deplacement.y);
+        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,gravity)));
+      }
+      else{
+        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,gravity)));
+      }
+      i = 0;
+
+      if( deplacement.x <= deplacement.y){
+      while(i < (int)listRInSec.size() && !isColliding){
+        isColliding = currentLevel.getCharacters()[numChar].collision(listRInSec[i], deplacement);
+        i++;
+      }
+
+      if(isColliding){
+        deplacement.x = currentLevel.getCharacters()[numChar].collisionHorizontal(listRInSec[--i], deplacement);
+        currentLevel.getCharacters()[numChar].setPositionX(deplacement.x);
+        isColliding = false;
+      }
+      i=0;
+    }
+
+      generateTextureBackground();
+      displayLevel();
+      qt.drawSection();
+      drawArrow();
+      //camera.followCharacter(currentLevel.getCharacters()[numChar]);
+      setCamera();
+
+    }
+}
+
+
 bool App::isDead(){
     Character currentPlayer = currentLevel.getCharacters()[numChar];
     if(currentPlayer.getPosUpperLeft().x < topLeftLvl.x || currentPlayer.getPosUpperLeft().x > bottomRightLvl.x || currentPlayer.getPosUpperLeft().y > topLeftLvl.y || currentPlayer.getPosUpperLeft().y < bottomRightLvl.y ){
@@ -150,7 +186,6 @@ void App::setCamera(){
 }
 
     
-
 void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
 
     glm::vec2 acceleration = {0,0};
