@@ -8,32 +8,30 @@
 class Character : public Rectangle {
   private : // récupère les mêmes attributs et fonctions que dans Rectangle
     glm::vec2 positionArrivee;
-    float speed;
-    
+
+
+
 
   public:
+    glm::vec2 velocity;
+    float acceleration;
     glm::vec2 getPosFinal();
     void drawFinalPos();
     bool isInFinalPos();
 
-    bool isJumping;
-    bool isMoving;
     Character();
     Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee);
     void displayValues();
-    float calcMove(float velocity ,float deltaTime);
-    void moveDown(float velocity, float deltaTime); //a enlever
-    float jump(float velocity, float deltaTime);
-    float gravity(float deltaTime);
+
     bool collision(Rectangle r, glm::vec2 dir);
-    char whereIsCollision(Rectangle r, float mv);
-    bool isCollision(std::vector<Rectangle> list, glm::vec2 dir);
-   
+    glm::vec2 getValMouvments(glm::vec2 acc);
+
 
     void setPositionX(float newPos);
     void setPositionY(float newPos);
-
-    int setPositionIfCollision(Rectangle r, float mv, int direction);
+    void mouvments(glm::vec2 acc);
+    float collisionHorizontal(Rectangle r, glm::vec2 nextMove);
+    float collisionVertical(Rectangle r, glm::vec2 nextMove);
 
 
 };
