@@ -86,8 +86,8 @@ void Character::mouvments(glm::vec2 acc){
   this->topLeft.x += velocity.x;
   this->topLeft.y += velocity.y;
 
-  velocity.x = 0.90*velocity.x;
-  velocity.y = 0.90*velocity.y;
+  velocity.x = 0.5*velocity.x;
+  velocity.y = 0.9*velocity.y;
 }
 
 glm::vec2 Character::getValMouvments(glm::vec2 acc){

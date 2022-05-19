@@ -18,6 +18,7 @@ class Camera{
     //glm::mat4 getProjection();
     void followCharacter(Character& car);
 
+
     //getters
     glm::vec2 getPosition();
     glm::vec2 getTopLeft();
