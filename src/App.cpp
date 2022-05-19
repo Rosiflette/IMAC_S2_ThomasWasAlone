@@ -26,10 +26,11 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
     Reader r(std::string(ROOT_DIR) + "src/levels.txt");
     Level lvl = r.readNextLevel();
     this->currentLevel = lvl;
-    // lastMove= {0,0};
 
     // EXEMPLE UTILISATION QUADTREE -> créer le quadtree une fois après avoir chargé le niveaux en court
-    qt = Quadtree(glm::vec2((float)-1280/720, 1.0),glm::vec2(6,-1.0));
+    topLeftLvl = glm::vec2((float)-1280/720, 1.0);
+    bottomRightLvl = currentLevel.getPosBottomRightLvl();
+    qt = Quadtree(topLeftLvl,bottomRightLvl );
     for (int i = 0; i < (int)lvl.getObstacles().size(); i++) {
       qt.addRectangleIntoSection(lvl.getObstacles()[i], 6);
     }
@@ -93,6 +94,9 @@ void App::Render() {
       if(checkFinalPos()){
           page = 3;
       }
+      if(isDead()){
+          readLvl();
+      }
 
       float gravity = -0.001; //-0.001
       // lastMove = currentLevel.getCharacters()[numChar].getPosUpperLeft();
@@ -152,11 +156,36 @@ void App::Render() {
       displayLevel();
       qt.drawSection();
       drawArrow();
-      camera.followCharacter(currentLevel.getCharacters()[numChar]);
+      //camera.followCharacter(currentLevel.getCharacters()[numChar]);
+      setCamera();
 
     }
 }
 
+
+bool App::isDead(){
+    Character currentPlayer = currentLevel.getCharacters()[numChar];
+    if(currentPlayer.getPosUpperLeft().x < topLeftLvl.x || currentPlayer.getPosUpperLeft().x > bottomRightLvl.x || currentPlayer.getPosUpperLeft().y > topLeftLvl.y || currentPlayer.getPosUpperLeft().y < bottomRightLvl.y ){
+        return true;
+    }
+    return false;
+}
+
+void App::readLvl(){
+    Reader r(std::string(ROOT_DIR) + "src/levels.txt");
+    lvl = r.readNextLevel();
+    this->currentLevel = lvl;
+    camera.followCharacter(currentLevel.getCharacters()[numChar]);
+}
+
+void App::setCamera(){
+    //follow on horizontal axe
+    if(currentLevel.getCharacters()[numChar].getPosUpperLeft().x > 0 && currentLevel.getCharacters()[numChar].getPosUpperRight().x < currentLevel.getPosBottomRightLvl().x - 1.78){
+        camera.followCharacter(currentLevel.getCharacters()[numChar]);
+    }
+}
+
+    
 void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
 
     glm::vec2 acceleration = {0,0};

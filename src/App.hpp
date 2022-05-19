@@ -43,6 +43,8 @@ public:
     int numChar; //indice du character
     int getHeight();
     int getWidth();
+    glm::vec2 topLeftLvl;
+    glm::vec2 bottomRightLvl;
 
 
 
@@ -50,7 +52,7 @@ private:
     void LoadImage(const std::string& imagePath);
     void Render();
     glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
-
+    void setCamera();
 
     bool checkFinalPos();
 
@@ -74,10 +76,11 @@ private:
     float deltaTime;
     Camera camera;
 
+    bool isDead();
+    void readLvl();
+    
 
     int page; // 1 = menu, 2 = jeu
 
 };
 
-
-void drawRectangle(Rectangle rec);
