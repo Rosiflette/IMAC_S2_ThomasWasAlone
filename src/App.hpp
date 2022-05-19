@@ -1,6 +1,11 @@
 #pragma once
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
+//#define GLFW_INCLUDE_NONE
+// #include "GLFW/glfw3.h"
+// #include "glad/glad.h"
+// #include <glm/glm.hpp>
+
+#include <string>
+
 #include "glad/glad.h"
 #include <glm/glm.hpp>
 
@@ -8,12 +13,17 @@
 #include "Display.h"
 #include "Rectangle.h"
 #include "Level.h"
+//A RETIRER
+#include "Quadtree.h"
+#include "Reader.h"
+#include "Camera.h"
 
 
 
 class App {
 public:
     App();
+    App(float viewSize);
     void Update();
     
     // callbacks users input
@@ -25,14 +35,34 @@ public:
     //fonctions qu'on a ajouté
     void startMenu();
     void displayLevel();
+
     Level currentLevel;
+    Quadtree qt;
+    float velocity;
+    int numChar; //indice du character
+    int getHeight();
+    int getWidth();
+
+
 
 private: 
+    void LoadImage(const std::string& imagePath);
     void Render();
     glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
 
+
+    bool checkFinalPos();
+
+    void generateTexture();
+    void generateTextureBackground();
+    void textureLvl();
+    void checkCollison(std::vector<Rectangle> list, float mv, int direction);
+    void drawArrow();
+    void drawEnd();
+
     int _width;
     int _height;
+    float _viewSize;
     double _previousTime;
 
     GLuint _textureId;
@@ -41,6 +71,8 @@ private:
     Level lvl;
     Rectangle test;
     float deltaTime;
+    Camera camera;
+
 
     int page; // 1 = menu, 2 = jeu
     

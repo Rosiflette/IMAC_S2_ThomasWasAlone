@@ -1,6 +1,14 @@
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+#include "glad/glad.h"
+
 #include "App.hpp"
 #include "Level.h"
 #include "Reader.h"
+
+#include "helpers/RootDir.hpp"
+
+#include "Quadtree.h"
 
 static App& get_app(GLFWwindow* window) {
     return *reinterpret_cast<App*>(glfwGetWindowUserPointer(window));
@@ -22,7 +30,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "OpenGLTemplate", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280*2, 720, "OpenGLTemplate", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -58,37 +66,18 @@ int main() {
         get_app(window).size_callback(width, height);
     });
 
-
-
-    //Level lvl;
-
-
-    Reader r(std::string(ROOT_DIR) + "src/level.txt");
-    Level lvl = r.readNextLevel();
-
-    for (size_t i = 0; i < lvl.getObstacles().size(); i++) {
-      std::cout << "Rectangle " << i << std::endl;
-      lvl.getObstacles()[i].displayValues();
-    }
-    std::cout << "Character " << std::endl;
-    lvl.getCharacter().displayValues();
-
-    app.currentLevel = lvl;
-
-    Level lvl2 = r.readNextLevel();
-    for (size_t i = 0; i < lvl2.getObstacles().size(); i++) {
-      std::cout << "Rectangle " << i << std::endl;
-      lvl2.getObstacles()[i].displayValues();
-    }
+     // Force call the size_callback of the app to set the right viewport and projection matrix
+    
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    // std::cout << "width " << width << std::endl;
+    // std::cout << "height" << height << std::endl;
+    app.size_callback(width, height);
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
         app.Update();
         
-        //startMenu();
-
-        
-        //app.displayLevel();
 
         // Swap front and back buffers
         glfwSwapBuffers(window);
