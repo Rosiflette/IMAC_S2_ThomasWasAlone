@@ -65,6 +65,7 @@ float Rectangle::getHeight(){
 }
 
 
+
 void Rectangle::displayValues(){
   std::cout << "PositionTopLeft x, y : " << this->getPosUpperLeft().x << "," << this->getPosUpperLeft().y << std::endl;
   std::cout << "PositionBotRight x, y : " << this->getPosBottomRight().x << "," << this->getPosBottomRight().y << std::endl;
@@ -104,3 +105,4 @@ void Rectangle::draw(int isFilled){
       glVertex2f(this->getPosUpperRight().x,this->getPosUpperRight().y);
   glEnd();
 }
+

@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <math.h> //pour test sinus
 
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
@@ -95,7 +94,11 @@ void App::Render() {
     glm::vec2 deplacement = currentLevel.getCharacters()[numChar].getValMouvments(glm::vec2(0,gravity));
     std::vector<Rectangle> listRInSec;
     listRInSec = qt.seachListRectangles(currentLevel.getCharacters()[numChar].getPosUpperLeft(), currentLevel.getCharacters()[numChar].getPosBottomRight(),currentLevel.getCharacters()[numChar].getPosBottomLeft(), currentLevel.getCharacters()[numChar].getPosUpperRight());
-
+    for(int i =0; i<3; i++){
+        if(numChar != i){
+            listRInSec.push_back(currentLevel.getCharacters()[i]);
+        }
+    }
 
     if(page == 1){
         generateTexture();
@@ -131,6 +134,7 @@ void App::Render() {
         setQuadtree(topLeftLvl,bottomRightLvl);
         setCurrentPlayer();
         drawArrow();
+        double currentTime = glfwGetTime();
 
         if(checkFinalPos()){
           page = 4;
@@ -144,7 +148,6 @@ void App::Render() {
         setCamera();
     }
 }
-
 
 
 void App::setQuadtree(glm::vec2 tL, glm::vec2 bR){
@@ -252,7 +255,6 @@ void App::movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, floa
       if(isColliding){
         deplacement.y = currentLevel.getCharacters()[numChar].collisionVertical(listRInSec[--i], deplacement);
         isColliding = false;
-        // currentLevel.getCharacters()[numChar].setPositionY(deplacement.y);
         currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,0.001)));
       }
       else{
@@ -275,6 +277,8 @@ void App::movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, floa
     }
 
 }
+
+
 
 void App::setCurrentPlayer(){
     Character currentPlayer = currentLevel.getCharacters()[numChar];
