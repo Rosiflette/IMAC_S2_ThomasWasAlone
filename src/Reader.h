@@ -10,6 +10,7 @@ class Reader{
     std::ifstream myfile;
 
   public :
+    Reader();
     Reader(std::string file);
 
     Level readNextLevel();

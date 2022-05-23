@@ -58,23 +58,31 @@ private:
 
     void generateTexture();
     void generateTextureBackground();
-    void textureLvl();
+    void textureLvl1();
+    void textureLvl2();
     void checkCollison(std::vector<Rectangle> list, float mv, int direction);
     void drawArrow();
     void drawEnd();
+    void setQuadtree(glm::vec2 tL, glm::vec2 bR);
+    void setCurrentPlayer();
+    void movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, float gravity);
 
     int _width;
     int _height;
     float _viewSize;
     double _previousTime;
+    bool isColliding;
 
     GLuint _textureId;
 
     float _imageAngle;
     Level lvl;
+    // Reader r;
     Rectangle test;
+    Reader read;
     float deltaTime;
     Camera camera;
+    bool isJumping;
 
     bool isDead();
     void readLvl();

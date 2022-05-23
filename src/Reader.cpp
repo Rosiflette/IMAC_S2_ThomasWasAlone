@@ -1,5 +1,9 @@
 #include "Reader.h"
 
+Reader::Reader(){
+
+}
+
 Reader::Reader(std::string file){
     myfile.open(file);
     if(!myfile.is_open()){
@@ -43,8 +47,8 @@ Level Reader::readNextLevel(){
         int length = 9;
         float* valueArray = new float [length];
         split(line, delimiter, valueArray);
-        glm::vec2 p (glm::vec2(valueArray[0],valueArray[1]));
-        lvl.setPosBottomRightLvl(p);
+        std::vector<glm::vec2> p{glm::vec2(valueArray[0],valueArray[1]), glm::vec2(valueArray[2],valueArray[3])};
+        lvl.setScreenLvl(p);
         delete [] valueArray;
         break;
       }

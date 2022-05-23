@@ -13,7 +13,8 @@ class Level{
       std::vector<Rectangle> obstacles;
       Character character;
       std::vector<Character> characters;
-      glm::vec2 posBottomRightLvl;
+      std::vector<glm::vec2> posScreen;
+      int numLvl;
 
     public :
       Level();
@@ -23,6 +24,7 @@ class Level{
       std::vector<Character>& getCharacters();
       std::vector<Rectangle> getObstacles();
       glm::vec2& getPosBottomRightLvl();
+      std::vector<glm::vec2>& getScreenLvl();
 
       // SETTER
       void setCharacter(Character c){
@@ -34,8 +36,16 @@ class Level{
       void addObsacles(Rectangle r){
         this->obstacles.push_back(r);
       }
-      void setPosBottomRightLvl(glm::vec2 posBR){
-        this->posBottomRightLvl = posBR;
+      void setScreenLvl(std::vector<glm::vec2> s){
+        this->posScreen = s;
+      }
+
+      void setNumLevel(int n){
+        this->numLvl = n;
+      }
+
+      int getNumLevel(){
+        return numLvl;
       }
 
       void moveBack();
