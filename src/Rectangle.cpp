@@ -2,6 +2,7 @@
 #include "Rectangle.h"
 #include "glad/glad.h"
 #include <stdlib.h>
+#include <math.h> 
 
 Rectangle::Rectangle(){
   this->topLeft = glm::vec2(0,0);
@@ -64,7 +65,6 @@ float Rectangle::getHeight(){
     return this->height;
 }
 
-
 void Rectangle::displayValues(){
   std::cout << "PositionTopLeft x, y : " << this->getPosUpperLeft().x << "," << this->getPosUpperLeft().y << std::endl;
   std::cout << "PositionBotRight x, y : " << this->getPosBottomRight().x << "," << this->getPosBottomRight().y << std::endl;
@@ -104,3 +104,11 @@ void Rectangle::draw(int isFilled){
       glVertex2f(this->getPosUpperRight().x,this->getPosUpperRight().y);
   glEnd();
 }
+
+void Rectangle::movingPlatform(float finalPosX, double currentTime){
+  if(this->topLeft.x != finalPosX){
+    this->topLeft.x += sin(currentTime);
+  }
+}
+
+

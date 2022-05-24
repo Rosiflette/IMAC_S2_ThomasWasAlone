@@ -2,7 +2,9 @@
 #include <fstream>
 
 
-Level::Level(){}
+Level::Level(){
+  this->numLvl = 0;
+}
 
 
 // GETTER
@@ -19,6 +21,7 @@ std::vector<Rectangle> Level::getObstacles(){
   return obstacles;
 }
 
-glm::vec2& Level::getPosBottomRightLvl(){
-  return posBottomRightLvl;
+std::vector<glm::vec2>& Level::getScreenLvl(){
+  return posScreen;
 }
+
