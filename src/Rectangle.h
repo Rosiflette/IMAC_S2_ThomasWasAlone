@@ -39,6 +39,8 @@ class Rectangle{
         float getWidth();
         float getHeight();
 
+        void movingPlatform(float finalPosX, double currentTime);
+
 };
 
 #endif // RECTANGLE_H

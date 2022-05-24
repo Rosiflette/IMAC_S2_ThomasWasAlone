@@ -34,6 +34,8 @@ public:
     void size_callback(int width, int height);
     //fonctions qu'on a ajouté
     void startMenu();
+    void startMenu2();
+    void endMenu();
     void displayLevel();
 
     Level currentLevel;
@@ -58,26 +60,39 @@ private:
 
     void generateTexture();
     void generateTextureBackground();
-    void textureLvl();
+    void textureLvl1();
+    void textureLvl2();
     void checkCollison(std::vector<Rectangle> list, float mv, int direction);
     void drawArrow();
+    void drawCircle(float cx, float cy, float ray, int num_segments,float r, float g, float b);
+    void drawEyes();
     void drawEnd();
+    void setQuadtree(glm::vec2 tL, glm::vec2 bR);
+    void setCurrentPlayer();
+    void movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, float gravity);
+    bool isDead();
+    void readLvl();
+    
+
 
     int _width;
     int _height;
     float _viewSize;
     double _previousTime;
+    bool isColliding;
 
     GLuint _textureId;
 
     float _imageAngle;
     Level lvl;
+    // Reader r;
     Rectangle test;
+    Reader read;
     float deltaTime;
+    double currentTime;
     Camera camera;
+    bool isJumping;
 
-    bool isDead();
-    void readLvl();
     
 
     int page; // 1 = menu, 2 = jeu

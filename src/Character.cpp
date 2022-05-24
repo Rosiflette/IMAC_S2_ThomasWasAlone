@@ -26,7 +26,7 @@ void Character::drawFinalPos(){
 }
 
 bool Character::isInFinalPos(){
-  if(abs(this->getPosFinal().x - this->getPosBottomRight().x) < 0.01 && abs(this->getPosFinal().y - this->getPosBottomRight().y) < 0.01 ){
+  if(abs(this->getPosFinal().x - this->getPosBottomRight().x) < 0.1 && abs(this->getPosFinal().y - this->getPosBottomRight().y) < 0.1 ){
     return true;
   }
   return false;
@@ -56,12 +56,15 @@ float Character::collisionHorizontal(Rectangle r, glm::vec2 nextMove){
         return r.getPosBottomRight().x;
       }
       //collision character right
-      if(nextMove.x+getWidth() < r.getPosBottomRight().x && nextMove.x+getWidth() > r.getPosBottomLeft().x){
+      if(nextMove.x+getWidth() > r.getPosBottomLeft().x && nextMove.x+getWidth() < r.getPosBottomRight().x){
         return r.getPosBottomLeft().x-getWidth();
 
       }
+
   }
   return nextMove.x;
+
+
 }
 
 float Character::collisionVertical(Rectangle r, glm::vec2 nextMove){
@@ -77,6 +80,8 @@ float Character::collisionVertical(Rectangle r, glm::vec2 nextMove){
     }
     return nextMove.y;
 
+    
+
 
 }
 
@@ -85,9 +90,13 @@ void Character::mouvments(glm::vec2 acc){
   velocity.y += acc.y;
   this->topLeft.x += velocity.x;
   this->topLeft.y += velocity.y;
-
-  velocity.x = 0.5*velocity.x;
+  velocity.x = 0.1*velocity.x;
   velocity.y = 0.9*velocity.y;
+  
+}
+
+void Character::reduceVelocity(){
+  
 }
 
 glm::vec2 Character::getValMouvments(glm::vec2 acc){
@@ -103,3 +112,4 @@ void Character::setPositionX(float newPos){
 void Character::setPositionY(float newPos){
   this->topLeft.y = newPos;
 }
+

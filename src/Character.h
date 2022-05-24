@@ -18,6 +18,7 @@ class Character : public Rectangle {
     glm::vec2 getPosFinal();
     void drawFinalPos();
     bool isInFinalPos();
+    void reduceVelocity();
 
     Character();
     Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee);
