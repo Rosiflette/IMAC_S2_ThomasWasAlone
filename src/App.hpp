@@ -34,6 +34,8 @@ public:
     void size_callback(int width, int height);
     //fonctions qu'on a ajouté
     void startMenu();
+    void startMenu2();
+    void endMenu();
     void displayLevel();
 
     Level currentLevel;
@@ -68,6 +70,9 @@ private:
     void setQuadtree(glm::vec2 tL, glm::vec2 bR);
     void setCurrentPlayer();
     void movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, float gravity);
+    bool isDead();
+    void readLvl();
+    
 
 
     int _width;
@@ -88,8 +93,6 @@ private:
     Camera camera;
     bool isJumping;
 
-    bool isDead();
-    void readLvl();
     
 
     int page; // 1 = menu, 2 = jeu

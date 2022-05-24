@@ -101,6 +101,12 @@ void App::Render() {
     }
 
     if(page == 1){
+        if((int)currentTime%2){
+            startMenu2();
+        }
+        else{
+            startMenu();
+        }
         generateTexture();
     }
     if(page == 2){
@@ -135,19 +141,26 @@ void App::Render() {
         setQuadtree(topLeftLvl,bottomRightLvl);
         setCurrentPlayer();
         drawArrow();
+        drawEyes();
 
 
         if(checkFinalPos()){
-          page = 4;
-          //this->currentLevel.setNumLevel(this->currentLevel.getNumLevel()+1);
-          //this->currentLevel = read.readNextLevel();
+            endMenu();
+            page = 4;
         }
+        
         if(isDead()){
             readLvl();
         }
         movement(deplacement, listRInSec, gravity);
         setCamera();
     }
+
+    if(page == 4){
+        generateTextureBackground();
+    }
+
+    
 }
 
 
@@ -228,6 +241,7 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
             currentLevel.getCharacters()[numChar].mouvments(acceleration);
         
     }
+    
 
 }
 
@@ -338,19 +352,31 @@ static App& get_app(GLFWwindow* window) {
 
 //Menu de debut
 void App::startMenu(){
-    std::string imagePath = std::string(ROOT_DIR) + "res/StartMenuBIG.jpg";
+    std::string imagePath = std::string(ROOT_DIR) + "res/StartMenu.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::startMenu2(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/startMenu2.jpg";
     LoadImage(imagePath);
 
 }
 
 void App::textureLvl1(){
-    std::string imagePath = std::string(ROOT_DIR) + "res/sunsetPixel.jpg";
+    std::string imagePath = std::string(ROOT_DIR) + "res/textureLvl1.jpg";
     LoadImage(imagePath);
 
 }
 
 void App::textureLvl2(){
     std::string imagePath = std::string(ROOT_DIR) + "res/textureLvl2.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::endMenu(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/endMenu.jpg";
     LoadImage(imagePath);
 
 }
