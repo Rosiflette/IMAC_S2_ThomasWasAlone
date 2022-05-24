@@ -77,7 +77,7 @@ void App::LoadImage(const std::string& imagePath) {
 
 void App::Update() {
 
-    double currentTime = glfwGetTime();
+    currentTime = glfwGetTime();
 
     deltaTime = currentTime - _previousTime;
     _previousTime = currentTime;
@@ -122,6 +122,7 @@ void App::Render() {
         displayLevel();
         qt.drawSection();
         drawArrow();
+        drawEyes();
         setCamera();
 
     }
@@ -134,7 +135,7 @@ void App::Render() {
         setQuadtree(topLeftLvl,bottomRightLvl);
         setCurrentPlayer();
         drawArrow();
-        double currentTime = glfwGetTime();
+
 
         if(checkFinalPos()){
           page = 4;
@@ -406,7 +407,7 @@ void App::generateTextureBackground(){
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, _textureId);
 
-        //glColor3f(1.0f, 1.0f, 1.0f);
+        glColor3f(1.0f, 1.0f, 1.0f);
         glBegin(GL_QUADS);
 
             glTexCoord2d(0,0); glVertex2f(tl.x, 1);
@@ -433,4 +434,32 @@ void App::drawArrow(){
       glVertex2f(characMiddle - 0.02,currentPlayer.getPosUpperLeft().y + 0.05);
       glVertex2f(characMiddle + 0.02, currentPlayer.getPosUpperLeft().y + 0.05);
     glEnd();
+}
+
+
+void App::drawCircle(float cx, float cy, float ray, int num_segments, float r, float g, float b) {
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3f(r,g,b);
+    for (int i = 0; i < num_segments; i++)   {
+        float theta = 2.0f * 3.1415926f * float(i) / float(num_segments);//get the current angle 
+        float x = ray * cosf(theta);//calculate the x component 
+        float y = ray * sinf(theta);//calculate the y component 
+        glVertex2f(x + cx, y + cy);//output vertex 
+    }
+    glEnd();
+}
+
+void App::drawEyes(){
+    Character currentPlayer = currentLevel.getCharacters()[numChar];
+    float cxL = currentPlayer.getPosUpperLeft().x+(1/3.0)*currentPlayer.getWidth();
+    float cyL = currentPlayer.getPosUpperLeft().y-(1/3.0)*currentPlayer.getHeight();
+
+    float cxR = currentPlayer.getPosUpperRight().x-(1/3.0)*currentPlayer.getWidth();
+    float cyR = currentPlayer.getPosUpperRight().y-(1/3.0)*currentPlayer.getHeight();
+
+    drawCircle(cxL,cyL,0.01,10,1,1,1);
+    drawCircle(cxR,cyR,0.01,10,1,1,1);
+
+    drawCircle(cxL+0.002,cyL+0.002,0.007,10,0,0,0);
+    drawCircle(cxR+0.002,cyR+0.002,0.007,10,0,0,0);
 }

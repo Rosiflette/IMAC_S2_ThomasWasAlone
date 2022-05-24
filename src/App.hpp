@@ -62,10 +62,13 @@ private:
     void textureLvl2();
     void checkCollison(std::vector<Rectangle> list, float mv, int direction);
     void drawArrow();
+    void drawCircle(float cx, float cy, float ray, int num_segments,float r, float g, float b);
+    void drawEyes();
     void drawEnd();
     void setQuadtree(glm::vec2 tL, glm::vec2 bR);
     void setCurrentPlayer();
     void movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, float gravity);
+
 
     int _width;
     int _height;
@@ -81,6 +84,7 @@ private:
     Rectangle test;
     Reader read;
     float deltaTime;
+    double currentTime;
     Camera camera;
     bool isJumping;
 

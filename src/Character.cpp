@@ -93,7 +93,6 @@ void Character::mouvments(glm::vec2 acc){
   velocity.x = 0.1*velocity.x;
   velocity.y = 0.9*velocity.y;
   
-
 }
 
 void Character::reduceVelocity(){
