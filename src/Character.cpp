@@ -4,12 +4,15 @@
 
 Character::Character(){}
 
-Character::Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee): Rectangle(posTL,posBR,col){
+Character::Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee, float jumpPower): Rectangle(posTL,posBR,col){
   this->positionArrivee = positionArrivee;
   this->velocity = {0,0};
+  this->jumpPower = jumpPower;
 }
 
-
+float Character::getJumpPower(){
+  return this->jumpPower;
+}
 
 glm::vec2 Character::getPosFinal(){
   return this->positionArrivee;
@@ -47,6 +50,16 @@ bool Character::collision(Rectangle r, glm::vec2 dir){
     }
     return false;
 
+}
+
+bool Character::inCollision(std::vector<Rectangle> listR,glm::vec2 dir){
+  for(int i=0; i< listR.size(); i++){
+    if(collision(listR[i], dir)){
+
+      return true;
+    }
+  }
+  return false;
 }
 
 float Character::collisionHorizontal(Rectangle r, glm::vec2 nextMove){

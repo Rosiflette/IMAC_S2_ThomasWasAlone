@@ -52,6 +52,7 @@ public:
 
     Level currentLevel;
     Quadtree qt;
+    bool inCollision;
     float velocity;
     // glm::vec2 lastMove;
     int numChar; //indice du character
