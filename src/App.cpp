@@ -17,7 +17,7 @@ App::App(): App(2.0f){
 
 }
 
-App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(viewSize){
+App::App(float viewSize) : _previousTime(0.0), _viewSize(viewSize){
 
     this->page = 1;
     startMenu();
@@ -44,6 +44,8 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
     //Création de la caméra
     camera = Camera();
 
+    //initaliser la vitesse des rectangles décor
+    speed = 0.1;
 
 }
 
@@ -101,12 +103,13 @@ void App::Render() {
     }
     inCollision = currentLevel.getCharacters()[numChar].inCollision(listRInSec, deplacement);
 
+
     if(page == 1){
         if((int)currentTime%2){
-            startMenu2();
+            accueil1();
         }
         else{
-            startMenu();
+            accueil2();
         }
         generateTexture();
     }
@@ -144,6 +147,19 @@ void App::Render() {
         drawArrow();
         drawEyes();
 
+       
+        mouvmentX+=speed*deltaTime;
+     
+        if(mouvmentX<0.15){
+            speed = 0.1;
+            
+        }
+        if(mouvmentX>1){
+           speed = -0.1;
+        }
+        Rectangle newObstacle = currentLevel.getObstacles()[2];
+        newObstacle.movingPlatform(mouvmentX);
+        currentLevel.setObstacle(newObstacle,2);
 
         if(checkFinalPos()){
             endMenu();
@@ -159,6 +175,66 @@ void App::Render() {
 
     if(page == 4){
         generateTextureBackground();
+    }
+    if(page==10){
+        //RULES OF THE GAME
+        if(countRules <5){
+          rules();
+          countRules++;  
+        }
+        else if(countRules >=5 && countRules <10){
+           rulesUp1();
+           countRules++; 
+        }
+        else if(countRules>=4 && countRules <15){
+           rulesUp2(); 
+           countRules++; 
+        }
+        else if(countRules>=15 && countRules <20){
+           rulesUp2();
+           countRules++; 
+        }
+        else if(countRules>=20 && countRules <25){
+           rules();
+           countRules++; 
+        }
+        else if(countRules>=25 && countRules<30){
+           rulesRight1();
+           countRules++; 
+        }
+        else if(countRules>=30 && countRules<35){
+           rulesRight2();
+           countRules++; 
+        }
+        else if(countRules>=35 && countRules<40){
+           rulesLeft1();
+           countRules++; 
+        }
+        else if(countRules>=40 && countRules<45){
+           rulesLeft2();
+           countRules++; 
+        }
+        else if(countRules>=45 && countRules<50){
+           rules();
+           countRules++; 
+        }
+        else if(countRules>=50 && countRules<55){
+           rulesTab1();
+           countRules++; 
+        }
+        else if(countRules>=55 && countRules<60){
+           rulesTab2();
+           countRules++; 
+        }
+        else if(countRules>=60 && countRules<65){
+           rulesTab3();
+           countRules++; 
+        }
+        else{
+            rules();
+            countRules =0;
+        }
+        generateTexture();
     }
 
     
@@ -210,6 +286,13 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
     if(key == GLFW_KEY_ENTER && page == 1){
         page = 2;
         textureLvl1();
+    }
+    else if(key == GLFW_KEY_R && page == 1){
+        page = 10;
+        countRules = 0;
+    }
+    else if(key == GLFW_KEY_B && page ==10){
+        page = 1;
     }
     else{
         if(key == GLFW_KEY_RIGHT){
@@ -365,6 +448,78 @@ void App::startMenu(){
 
 void App::startMenu2(){
     std::string imagePath = std::string(ROOT_DIR) + "res/startMenu2.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::accueil1(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/accueil1.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::accueil2(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/accueil2.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rules(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesBase.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesUp1(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesUp1.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesUp2(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesUp2.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesRight1(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesRight1.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesRight2(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesRight2.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesLeft1(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesLeft1.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesLeft2(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesLeft2.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesTab1(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesTab1.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesTab2(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesTab2.jpg";
+    LoadImage(imagePath);
+
+}
+
+void App::rulesTab3(){
+    std::string imagePath = std::string(ROOT_DIR) + "res/rulesTab3.jpg";
     LoadImage(imagePath);
 
 }

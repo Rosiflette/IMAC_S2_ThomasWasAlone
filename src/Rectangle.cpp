@@ -105,10 +105,9 @@ void Rectangle::draw(int isFilled){
   glEnd();
 }
 
-void Rectangle::movingPlatform(float finalPosX, double currentTime){
-  if(this->topLeft.x != finalPosX){
-    this->topLeft.x += sin(currentTime);
-  }
+void Rectangle::movingPlatform(float posX){
+  this->topLeft.x = posX;
+  //std::cout << this->topLeft.x << std::endl;
 }
 
 
