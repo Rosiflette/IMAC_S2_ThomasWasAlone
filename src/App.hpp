@@ -83,7 +83,7 @@ private:
 
     GLuint _textureId;
 
-    float _imageAngle;
+    
     Level lvl;
     // Reader r;
     Rectangle test;
@@ -92,7 +92,8 @@ private:
     double currentTime;
     Camera camera;
     bool isJumping;
-
+    float speed;
+    float mouvmentX;
     
 
     int page; // 1 = menu, 2 = jeu

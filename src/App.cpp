@@ -17,7 +17,7 @@ App::App(): App(2.0f){
 
 }
 
-App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(viewSize){
+App::App(float viewSize) : _previousTime(0.0), _viewSize(viewSize){
 
     this->page = 1;
     startMenu();
@@ -44,6 +44,8 @@ App::App(float viewSize) : _previousTime(0.0), _imageAngle(0.0f), _viewSize(view
     //Création de la caméra
     camera = Camera();
 
+    //initaliser la vitesse des rectangles décor
+    speed = 0.1;
 
 }
 
@@ -100,6 +102,7 @@ void App::Render() {
         }
     }
 
+
     if(page == 1){
         if((int)currentTime%2){
             startMenu2();
@@ -143,6 +146,19 @@ void App::Render() {
         drawArrow();
         drawEyes();
 
+       
+        mouvmentX+=speed*deltaTime;
+     
+        if(mouvmentX<0.15){
+            speed = 0.1;
+            
+        }
+        if(mouvmentX>1){
+           speed = -0.1;
+        }
+        Rectangle newObstacle = currentLevel.getObstacles()[2];
+        newObstacle.movingPlatform(mouvmentX);
+        currentLevel.setObstacle(newObstacle,2);
 
         if(checkFinalPos()){
             endMenu();

@@ -33,6 +33,9 @@ class Level{
       void addCharacters(Character c){
         this->characters.push_back(c);
       }
+      void setObstacle(Rectangle r, int indice){
+        this->obstacles[indice] = r;
+      }
       void addObsacles(Rectangle r){
         this->obstacles.push_back(r);
       }
@@ -49,6 +52,8 @@ class Level{
       }
 
       void moveBack();
+
+
 
 };
 
