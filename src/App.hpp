@@ -35,6 +35,18 @@ public:
     //fonctions qu'on a ajouté
     void startMenu();
     void startMenu2();
+    void accueil1();
+    void accueil2();
+    void rules();
+    void rulesUp1();
+    void rulesUp2();
+    void rulesRight1();
+    void rulesRight2();
+    void rulesLeft1();
+    void rulesLeft2();
+    void rulesTab1();
+    void rulesTab2();
+    void rulesTab3();
     void endMenu();
     void displayLevel();
 
@@ -47,6 +59,7 @@ public:
     int getWidth();
     glm::vec2 topLeftLvl;
     glm::vec2 bottomRightLvl;
+    int countRules;
 
 
 
