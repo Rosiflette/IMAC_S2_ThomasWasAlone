@@ -39,7 +39,7 @@ class Rectangle{
         float getWidth();
         float getHeight();
 
-        void movingPlatform(float finalPosX, double currentTime);
+        void movingPlatform(float posX);
 
 };
 
