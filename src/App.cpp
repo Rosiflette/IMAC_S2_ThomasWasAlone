@@ -99,6 +99,7 @@ void App::Render() {
             listRInSec.push_back(currentLevel.getCharacters()[i]);
         }
     }
+    inCollision = currentLevel.getCharacters()[numChar].inCollision(listRInSec, deplacement);
 
     if(page == 1){
         if((int)currentTime%2){
@@ -218,9 +219,14 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
           acceleration.x -= acc;
         }
         if(key == GLFW_KEY_UP){
-
-            acceleration.y += acc*1.5;
-
+            if(inCollision){
+                acceleration.y += acc*currentLevel.getCharacters()[numChar].getJumpPower();
+            }
+            else{
+                acceleration.y += 0;
+            }
+            
+    
         }
         if(key == GLFW_KEY_DOWN){
           acceleration.y -= acc;
@@ -270,7 +276,7 @@ void App::movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, floa
       if(isColliding){
         deplacement.y = currentLevel.getCharacters()[numChar].collisionVertical(listRInSec[--i], deplacement);
         isColliding = false;
-        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,0.001)));
+        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,0.0005)));
       }
       else{
         currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,gravity)));
@@ -426,9 +432,6 @@ void App::generateTextureBackground(){
         glm::vec2 tr = glm::vec2(camera.getPosition().x + (float)1280/720 , camera.getPosition().y + 1);
         glm::vec2 bl = glm::vec2(camera.getPosition().x - (float)1280/720, camera.getPosition().y - 1);
         glm::vec2 br = glm::vec2(camera.getPosition().x + (float)1280/720, camera.getPosition().y - 1);
-
-
-
 
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, _textureId);

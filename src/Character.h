@@ -8,6 +8,7 @@
 class Character : public Rectangle {
   private : // récupère les mêmes attributs et fonctions que dans Rectangle
     glm::vec2 positionArrivee;
+    float jumpPower;
 
 
 
@@ -16,15 +17,17 @@ class Character : public Rectangle {
     glm::vec2 velocity;
     float acceleration;
     glm::vec2 getPosFinal();
+    float getJumpPower();
     void drawFinalPos();
     bool isInFinalPos();
     void reduceVelocity();
 
     Character();
-    Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee);
+    Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee,float jumpPower);
     void displayValues();
 
     bool collision(Rectangle r, glm::vec2 dir);
+    bool inCollision(std::vector<Rectangle> listR,glm::vec2 dir);
     glm::vec2 getValMouvments(glm::vec2 acc);
 
 
