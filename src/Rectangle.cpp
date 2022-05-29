@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <math.h> 
 
+//constructors
 Rectangle::Rectangle(){
   this->topLeft = glm::vec2(0,0);
   this->botRight = glm::vec2(0,0);
@@ -52,7 +53,7 @@ glm::vec2 Rectangle::getPosUpperRight(){
     return vect;
 }
 
-//Get the color
+//Getters
 glm::vec3 Rectangle::getColor(){
     return this->color;
 }
@@ -65,6 +66,7 @@ float Rectangle::getHeight(){
     return this->height;
 }
 
+//Display the attributs of the rectangle
 void Rectangle::displayValues(){
   std::cout << "PositionTopLeft x, y : " << this->getPosUpperLeft().x << "," << this->getPosUpperLeft().y << std::endl;
   std::cout << "PositionBotRight x, y : " << this->getPosBottomRight().x << "," << this->getPosBottomRight().y << std::endl;
@@ -72,8 +74,7 @@ void Rectangle::displayValues(){
   std::cout << "Couleur r, g, b : " << this->color.x << "," << this->color.y << "," << this->color.z << std::endl;
 }
 
-// avec des recangles droits (pas penchés)
-// return 1 si l'un des 4 angles du rectangle r est dans le rectangle this
+//Return 1 if one angle of the rectangle is in the other rectangle
 bool Rectangle::isRectangleInRectangle(Rectangle r){
 
     return (this->isPointInRectangle(r.getPosUpperLeft()) ||
@@ -89,7 +90,7 @@ bool Rectangle::isPointInRectangle(glm::vec2 p){
         p.y >= this->botRight.y); 
 }
 
-
+//display a rectangle
 void Rectangle::draw(int isFilled){
   if(isFilled){
     glBegin(GL_POLYGON);
@@ -105,9 +106,9 @@ void Rectangle::draw(int isFilled){
   glEnd();
 }
 
+//moving platform
 void Rectangle::movingPlatform(float posX){
   this->topLeft.x = posX;
-  //std::cout << this->topLeft.x << std::endl;
 }
 
 

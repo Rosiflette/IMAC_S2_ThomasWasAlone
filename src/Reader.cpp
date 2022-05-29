@@ -1,8 +1,6 @@
 #include "Reader.h"
 
-Reader::Reader(){
-
-}
+Reader::Reader(){}
 
 Reader::Reader(std::string file){
     myfile.open(file);
@@ -18,6 +16,7 @@ Level Reader::readNextLevel(){
   char delimiter = ';';
   while(getline(this->myfile, line) && line.compare("/")){
     switch (line[0]) {
+      //m = rectangle of the Map
       case 'm':
       {
         line = line.substr(1, line.length());
@@ -29,7 +28,7 @@ Level Reader::readNextLevel(){
         delete [] valueArray;
         break;
       }
-
+      //c = character
       case 'c':
       {
         line = line.substr(1, line.length());
@@ -40,7 +39,8 @@ Level Reader::readNextLevel(){
         lvl.addCharacters(c);
         delete [] valueArray;
         break;}
-
+        
+      // p = position upper left, and bottom right of the level
       case 'p':
       {
         line = line.substr(1, line.length());

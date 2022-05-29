@@ -14,7 +14,6 @@ void Camera::followCharacter(Character& car){
 
         glMatrixMode(GL_MODELVIEW);
         float distancePersoHori = this->position.x - (car.getPosUpperLeft().x + car.getWidth()/2);
-        //float distancePersoVert = this->position.y - (car.getPosUpperLeft().y + car.getHeight()/2);
 
         glTranslatef(distancePersoHori,0,0);
 

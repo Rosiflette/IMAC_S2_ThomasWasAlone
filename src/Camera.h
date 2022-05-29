@@ -15,7 +15,6 @@ class Camera{
     public:
 
     Camera();
-    //glm::mat4 getProjection();
     void followCharacter(Character& car);
 
 

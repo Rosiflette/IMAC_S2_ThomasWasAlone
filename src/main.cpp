@@ -30,7 +30,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
-    GLFWwindow* window = glfwCreateWindow(1280*2, 720, "Thomas Was Alone", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Thomas Was Alone", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -54,15 +54,6 @@ int main() {
     glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         get_app(window).key_callback(key, scancode, action, mods);
     });
-    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
-        get_app(window).mouse_button_callback(button, action, mods);
-    });
-    glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
-        get_app(window).scroll_callback(xoffset, yoffset);
-    });
-    glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
-        get_app(window).cursor_position_callback(xpos, ypos);
-    });
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
         get_app(window).size_callback(width, height);
     });
@@ -74,10 +65,8 @@ int main() {
     app.size_callback(width, height);
 
     // Loop until the user closes the window
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window) && !glfwGetKey(window, GLFW_KEY_ESCAPE)) {
         app.Update();
-        //std::cout << glfwGetKey(window, GLFW_KEY_RIGHT) << std::endl;
-        
 
         // Swap front and back buffers
         glfwSwapBuffers(window);

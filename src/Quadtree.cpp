@@ -10,6 +10,7 @@ Quadtree::Quadtree(glm::vec2 tl, glm::vec2 br){
   sectSE = nullptr;
 }
 
+//Insert a rectangle in the right section of the quadtree 
 int Quadtree::addRectangleIntoSection(Rectangle r, int currentHigh){
 
   if (currentHigh < 1) {
@@ -92,6 +93,7 @@ int Quadtree::addRectangleIntoSection(Rectangle r, int currentHigh){
 
 }
 
+//Draw the quadtree
 void Quadtree::drawSection(){
     this->section.draw(0);
     if(this->sectNE != NULL){
@@ -116,7 +118,7 @@ bool Quadtree::isLeaf(){
 
 }
 
-
+//Return the list of rectangle near the position
 std::vector<Rectangle> Quadtree::search(glm::vec2 position){
 
     if(this->isLeaf()){
@@ -140,6 +142,7 @@ std::vector<Rectangle> Quadtree::search(glm::vec2 position){
 
 }
 
+//Return list of rectangle for all corners of the character
 std::vector<Rectangle> Quadtree::seachListRectangles(glm::vec2 topLeft, glm::vec2 topRight, glm::vec2 botLeft, glm::vec2 botRight){
   std::vector<Rectangle> list = search(topLeft);
   std::vector<Rectangle> listTR = search(topRight);
@@ -151,6 +154,7 @@ std::vector<Rectangle> Quadtree::seachListRectangles(glm::vec2 topLeft, glm::vec
   return list;
 }
 
+//Check if the rectangle is already in the list
 std::vector<Rectangle> Quadtree::addIfNotExist(std::vector<Rectangle> list, std::vector<Rectangle> toAdd){
   bool t ;
     for(int i = 0; i < toAdd.size(); i++){

@@ -6,7 +6,7 @@
 
 
 class Character : public Rectangle {
-  private : // récupère les mêmes attributs et fonctions que dans Rectangle
+  private : //Is a rectangle child
     glm::vec2 positionArrivee;
     float jumpPower;
 
@@ -14,30 +14,33 @@ class Character : public Rectangle {
 
 
   public:
-    glm::vec2 velocity;
-    float acceleration;
-    glm::vec2 getPosFinal();
-    float getJumpPower();
-    void drawFinalPos();
-    bool isInFinalPos();
-    void setFinalPos();
-    void reduceVelocity();
-
     Character();
     Character(glm::vec2 posTL, glm::vec2 posBR, glm::vec3 col, glm::vec2 positionArrivee,float jumpPower);
-    void displayValues();
 
+    glm::vec2 velocity;
+    float acceleration;
+
+    //Getter
+    glm::vec2 getPosFinal();
+    float getJumpPower();
+
+    //Setter
+    void setPositionX(float newPos);
+    void setPositionY(float newPos);
+
+    //Collision and movements
     bool collision(Rectangle r, glm::vec2 dir);
     bool inCollision(std::vector<Rectangle> listR,glm::vec2 dir);
     glm::vec2 getValMouvments(glm::vec2 acc);
-
-
-    void setPositionX(float newPos);
-    void setPositionY(float newPos);
     void mouvments(glm::vec2 acc, float deltaTime);
     float collisionHorizontal(Rectangle r, glm::vec2 nextMove);
     float collisionVertical(Rectangle r, glm::vec2 nextMove);
+    void setFinalPos();
 
+    
+    void drawFinalPos();
+    bool isInFinalPos();
+    void displayValues();
 
 };
 

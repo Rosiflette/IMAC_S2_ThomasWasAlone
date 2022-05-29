@@ -9,15 +9,11 @@
 #include "glad/glad.h"
 #include <glm/glm.hpp>
 
-//c'est ici qu'il faut le mettre ??
-#include "Display.h"
 #include "Rectangle.h"
 #include "Level.h"
-//A RETIRER
 #include "Quadtree.h"
 #include "Reader.h"
 #include "Camera.h"
-
 
 
 class App {
@@ -28,13 +24,29 @@ public:
 
     // callbacks users input
     void key_callback(int key, int scancode, int action, int mods);
-    void mouse_button_callback(int button, int action, int mods);
-    void scroll_callback(double xoffset, double yoffset);
-    void cursor_position_callback(double xpos, double ypos);
     void size_callback(int width, int height);
-    //fonctions qu'on a ajouté
-    void startMenu();
-    void startMenu2();
+    
+    //window getter
+    int getHeight();
+    int getWidth();
+
+    //position of level corners
+    glm::vec2 topLeftLvl;
+    glm::vec2 bottomRightLvl;
+   
+    
+
+
+
+private:
+    
+    void Render();
+    
+
+    //TEXTURES
+    void LoadImage(const std::string& imagePath);
+    void generateTexture();
+    void generateTextureBackground();
     void accueil1();
     void accueil2();
     void rules();
@@ -48,76 +60,67 @@ public:
     void rulesTab2();
     void rulesTab3();
     void endMenu();
-    void displayLevel();
-    void generateRules();
-    
-    Level currentLevel;
-    Quadtree qt;
-    bool inCollision;
-    float velocity;
-    // glm::vec2 lastMove;
-    int numChar; //indice du character
-    int getHeight();
-    int getWidth();
-    glm::vec2 topLeftLvl;
-    glm::vec2 bottomRightLvl;
-    int countRules;
-
-    bool keyState[266];
-    
-
-
-
-private:
-    void LoadImage(const std::string& imagePath);
-    void Render();
-    glm::vec2 rotateVec2(const glm::vec2& vec, const glm::vec2& center, const float& angle);
-    void setCamera();
-
-    bool checkFinalPos();
-
-    void generateTexture();
-    void generateTextureBackground();
     void textureLvl1();
     void textureLvl2();
-    void checkCollison(std::vector<Rectangle> list, float mv, int direction);
+    
+    //DISPLAY
+    void displayLevel();
     void drawArrow();
-    void drawCircle(float cx, float cy, float ray, int num_segments,float r, float g, float b);
     void drawEyes();
     void drawEnd();
+    void generateRules();
+    void drawCircle(float cx, float cy, float ray, int num_segments,float r, float g, float b);
+    
+    
+    //MOVEMENT AND COLLISIONS
+    void checkCollison(std::vector<Rectangle> list, float mv, int direction);
     void setQuadtree(glm::vec2 tL, glm::vec2 bR);
-    void setCurrentPlayer();
     void movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, float gravity);
+   
+    
+    //LEVEL LOGISTIC
     bool isDead();
+    bool checkFinalPos();
     void readLvl();
+    void movingPlatform();
 
+     //CAMERA
+    void setCamera();
     
-    
-    bool right;
-
+ 
+    //window parameters
     int _width;
     int _height;
     float _viewSize;
-    double _previousTime;
+    
+    int countRules; 
+    bool keyState[266];
+
     bool isColliding;
+    bool inCollision;
 
     GLuint _textureId;
 
-    
-    Level lvl;
-    // Reader r;
-    Rectangle test;
-    Reader read;
     float deltaTime;
     double currentTime;
-    Camera camera;
-    bool isJumping;
+    double _previousTime;
+    
+    int page; // 1 = menu, 2 = jeu
+    Level lvl;
+    Reader read;
+    Camera camera;  
+    Level currentLevel;
+    Quadtree qt;
+
+    int numChar; //index of current character
+
+    //moving plateform
     float speed;
     float mouvmentX;
     
 
-    int page; // 1 = menu, 2 = jeu
-
+   
+    
     
 };
 

@@ -3,9 +3,7 @@
 
 
 #include <glm/glm.hpp>
-
-
-#include <iostream> // for displayValues() function
+#include <iostream> 
 
 class Rectangle{
 
@@ -18,6 +16,7 @@ class Rectangle{
         glm::vec3 color;
 
     public :
+        //constructors
         Rectangle();
         Rectangle(glm::vec2 positionTopLeft,glm::vec2 positionBotRight);
         Rectangle(glm::vec2 positionTopLeft,glm::vec2 positionBotRight, glm::vec3 col);
@@ -39,6 +38,7 @@ class Rectangle{
         float getWidth();
         float getHeight();
 
+        //moving platform
         void movingPlatform(float posX);
 
 };

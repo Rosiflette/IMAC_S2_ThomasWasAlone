@@ -21,7 +21,7 @@ glm::vec2 Character::getPosFinal(){
 void Character::drawFinalPos(){
   glBegin(GL_LINE_LOOP);
       glColor3f(0.2,0.2,0.2);
-      glVertex2f(this->getPosFinal().x,this->getPosFinal().y); //en bas a droite
+      glVertex2f(this->getPosFinal().x,this->getPosFinal().y);
       glVertex2f(this->getPosFinal().x,this->getPosFinal().y + this->getHeight());
       glVertex2f(this->getPosFinal().x-this->getWidth(),this->getPosFinal().y + this->getHeight());
       glVertex2f(this->getPosFinal().x-this->getWidth(),this->getPosFinal().y);
@@ -48,7 +48,7 @@ void Character::displayValues(){
   std::cout << "Position arrivée x, y : " << this->positionArrivee.x << "," << this->positionArrivee.y << std::endl;
 }
 
-
+//test AABB 
 bool Character::collision(Rectangle r, glm::vec2 dir){
     if(((dir.x+getWidth()) > r.getPosUpperLeft().x)
     && (dir.x < r.getPosBottomRight().x)
@@ -60,6 +60,7 @@ bool Character::collision(Rectangle r, glm::vec2 dir){
 
 }
 
+//In collision with one of the rectangle of the list
 bool Character::inCollision(std::vector<Rectangle> listR,glm::vec2 dir){
   for(int i=0; i< listR.size(); i++){
     if(collision(listR[i], dir)){
@@ -70,13 +71,14 @@ bool Character::inCollision(std::vector<Rectangle> listR,glm::vec2 dir){
   return false;
 }
 
+//Check collision horizontal and return the position the character should have at the end
 float Character::collisionHorizontal(Rectangle r, glm::vec2 nextMove){
   if(nextMove.y < r.getPosUpperLeft().y && (nextMove.y+getHeight()) > r.getPosBottomRight().y){
-      //collision character left
+      //Collision character left
       if(nextMove.x+getWidth() > r.getPosBottomLeft().x && nextMove.x+getWidth() > r.getPosBottomRight().x){
         return r.getPosBottomRight().x;
       }
-      //collision character right
+      //Collision character right
       if(nextMove.x+getWidth() > r.getPosBottomLeft().x && nextMove.x+getWidth() < r.getPosBottomRight().x){
         return r.getPosBottomLeft().x-getWidth();
 
@@ -89,16 +91,19 @@ float Character::collisionHorizontal(Rectangle r, glm::vec2 nextMove){
 
 }
 
+//Same vertically
 float Character::collisionVertical(Rectangle r, glm::vec2 nextMove){
 
     if(nextMove.x+getWidth() < r.getPosUpperRight().x && nextMove.x > r.getPosBottomLeft().x){
-        //collision character bottom
+        //Collision character top
+        if((nextMove.y > r.getPosBottomLeft().y) && (nextMove.y < r.getPosUpperLeft().y)){
+            return r.getPosBottomLeft().y;
+          }
+        //Collision character bottom
         if(((nextMove.y-getHeight()) < r.getPosUpperLeft().y) && ((nextMove.y -getHeight()) > r.getPosBottomLeft().y)){
           return r.getPosUpperLeft().y+getHeight();
         }
-        if((nextMove.y > r.getPosBottomLeft().y) && (nextMove.y < r.getPosUpperLeft().y)){
-          return r.getPosBottomLeft().y;
-        }
+        
     }
     return nextMove.y;
 
@@ -107,6 +112,7 @@ float Character::collisionVertical(Rectangle r, glm::vec2 nextMove){
 
 }
 
+
 void Character::mouvments(glm::vec2 acc, float deltaTime){
   velocity.x += acc.x;
   velocity.y += acc.y;
@@ -114,13 +120,9 @@ void Character::mouvments(glm::vec2 acc, float deltaTime){
   this->topLeft.y += velocity.y*50*deltaTime;
   velocity.x = 0.9*velocity.x;
   velocity.y = 0.9*velocity.y;
-  
 }
 
-void Character::reduceVelocity(){
-  
-}
-
+//Return the next position
 glm::vec2 Character::getValMouvments(glm::vec2 acc){
   float velx = velocity.x +acc.x;
   float vely = velocity.y +acc.y;
