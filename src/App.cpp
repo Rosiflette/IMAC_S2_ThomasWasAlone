@@ -274,7 +274,7 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
         
             if(inCollision){
                     acceleration.y += acc*currentLevel.getCharacters()[numChar].getJumpPower();
-                    acceleration.x += 1.5*acc;
+                    acceleration.x += 2*acc;
                 }
         
         }
@@ -283,7 +283,7 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
         
             if(inCollision){
                     acceleration.y += acc*currentLevel.getCharacters()[numChar].getJumpPower();
-                    acceleration.x -= 1.5*acc;
+                    acceleration.x -= 2*acc;
                 }
         
         }
@@ -361,7 +361,7 @@ void App::movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, floa
             currentLevel.getCharacters()[numChar].setPositionY(deplacement.y);
         }
         else{
-            currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,0.002)),deltaTime);
+            currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,0.0008)),deltaTime);
         }
         
       }
