@@ -28,8 +28,16 @@ void Character::drawFinalPos(){
   glEnd();
 }
 
+void Character::setFinalPos(){
+    float decalageX = this->getPosFinal().x - this->getPosBottomRight().x;
+    float decalageY = this->getPosFinal().y - this->getPosBottomRight().y;
+
+    this->topLeft = glm::vec2(this->topLeft.x+decalageX,this->topLeft.y + decalageY);
+}
+
 bool Character::isInFinalPos(){
-  if(abs(this->getPosFinal().x - this->getPosBottomRight().x) < 0.1 && abs(this->getPosFinal().y - this->getPosBottomRight().y) < 0.1 ){
+  if(abs(this->getPosFinal().x - this->getPosBottomRight().x) < 0.01 && abs(this->getPosFinal().y - this->getPosBottomRight().y) < 0.01 ){
+    this->setFinalPos();
     return true;
   }
   return false;
@@ -78,6 +86,7 @@ float Character::collisionHorizontal(Rectangle r, glm::vec2 nextMove){
   return nextMove.x;
 
 
+
 }
 
 float Character::collisionVertical(Rectangle r, glm::vec2 nextMove){
@@ -98,12 +107,12 @@ float Character::collisionVertical(Rectangle r, glm::vec2 nextMove){
 
 }
 
-void Character::mouvments(glm::vec2 acc){
+void Character::mouvments(glm::vec2 acc, float deltaTime){
   velocity.x += acc.x;
   velocity.y += acc.y;
-  this->topLeft.x += velocity.x;
-  this->topLeft.y += velocity.y;
-  velocity.x = 0.1*velocity.x;
+  this->topLeft.x += velocity.x*50*deltaTime;
+  this->topLeft.y += velocity.y*50*deltaTime;
+  velocity.x = 0.9*velocity.x;
   velocity.y = 0.9*velocity.y;
   
 }

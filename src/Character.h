@@ -20,6 +20,7 @@ class Character : public Rectangle {
     float getJumpPower();
     void drawFinalPos();
     bool isInFinalPos();
+    void setFinalPos();
     void reduceVelocity();
 
     Character();
@@ -33,7 +34,7 @@ class Character : public Rectangle {
 
     void setPositionX(float newPos);
     void setPositionY(float newPos);
-    void mouvments(glm::vec2 acc);
+    void mouvments(glm::vec2 acc, float deltaTime);
     float collisionHorizontal(Rectangle r, glm::vec2 nextMove);
     float collisionVertical(Rectangle r, glm::vec2 nextMove);
 

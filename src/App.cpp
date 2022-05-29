@@ -47,7 +47,9 @@ App::App(float viewSize) : _previousTime(0.0), _viewSize(viewSize){
     //initaliser la vitesse des rectangles décor
     speed = 0.1;
 
+   
 }
+
 
 void App::LoadImage(const std::string& imagePath) {
     // Generate texture
@@ -92,7 +94,7 @@ void App::Render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
 
-    float gravity = -0.001; //-0.001
+    float gravity = -0.002; //-0.001
     glm::vec2 deplacement = currentLevel.getCharacters()[numChar].getValMouvments(glm::vec2(0,gravity));
     std::vector<Rectangle> listRInSec;
     listRInSec = qt.seachListRectangles(currentLevel.getCharacters()[numChar].getPosUpperLeft(), currentLevel.getCharacters()[numChar].getPosBottomRight(),currentLevel.getCharacters()[numChar].getPosBottomLeft(), currentLevel.getCharacters()[numChar].getPosUpperRight());
@@ -115,29 +117,35 @@ void App::Render() {
     }
     if(page == 2){
 
-      if(checkFinalPos()){
+        
+        if(checkFinalPos()){
           page = 3;
           textureLvl2();
           numChar = 0;
           this->currentLevel.setNumLevel(this->currentLevel.getNumLevel()+1);
           this->currentLevel = read.readNextLevel();
+          camera.followCharacter(currentLevel.getCharacters()[numChar]);
+          
       }
       if(isDead()){
           readLvl();
       }
 
         movement(deplacement, listRInSec, gravity);
-
         generateTextureBackground();
         displayLevel();
         qt.drawSection();
         drawArrow();
         drawEyes();
         setCamera();
+        
 
     }
 
     if(page == 3){
+        std::cout << currentLevel.getCharacters()[numChar].getPosUpperLeft().x << std::endl;
+        std::cout << currentLevel.getCharacters()[numChar].getPosUpperLeft().y << std::endl;
+        
         generateTextureBackground();
         currentLevel.setNumLevel(2);
         displayLevel();
@@ -147,7 +155,6 @@ void App::Render() {
         drawArrow();
         drawEyes();
 
-       
         mouvmentX+=speed*deltaTime;
      
         if(mouvmentX<0.15){
@@ -178,63 +185,7 @@ void App::Render() {
     }
     if(page==10){
         //RULES OF THE GAME
-        if(countRules <5){
-          rules();
-          countRules++;  
-        }
-        else if(countRules >=5 && countRules <10){
-           rulesUp1();
-           countRules++; 
-        }
-        else if(countRules>=4 && countRules <15){
-           rulesUp2(); 
-           countRules++; 
-        }
-        else if(countRules>=15 && countRules <20){
-           rulesUp2();
-           countRules++; 
-        }
-        else if(countRules>=20 && countRules <25){
-           rules();
-           countRules++; 
-        }
-        else if(countRules>=25 && countRules<30){
-           rulesRight1();
-           countRules++; 
-        }
-        else if(countRules>=30 && countRules<35){
-           rulesRight2();
-           countRules++; 
-        }
-        else if(countRules>=35 && countRules<40){
-           rulesLeft1();
-           countRules++; 
-        }
-        else if(countRules>=40 && countRules<45){
-           rulesLeft2();
-           countRules++; 
-        }
-        else if(countRules>=45 && countRules<50){
-           rules();
-           countRules++; 
-        }
-        else if(countRules>=50 && countRules<55){
-           rulesTab1();
-           countRules++; 
-        }
-        else if(countRules>=55 && countRules<60){
-           rulesTab2();
-           countRules++; 
-        }
-        else if(countRules>=60 && countRules<65){
-           rulesTab3();
-           countRules++; 
-        }
-        else{
-            rules();
-            countRules =0;
-        }
-        generateTexture();
+        generateRules();
     }
 
     
@@ -250,7 +201,7 @@ void App::setQuadtree(glm::vec2 tL, glm::vec2 bR){
 
 bool App::isDead(){
     Character currentPlayer = currentLevel.getCharacters()[numChar];
-    if(currentPlayer.getPosUpperLeft().x < topLeftLvl.x || currentPlayer.getPosUpperLeft().x > bottomRightLvl.x || currentPlayer.getPosUpperLeft().y > topLeftLvl.y || currentPlayer.getPosUpperLeft().y < bottomRightLvl.y ){
+    if(currentPlayer.getPosUpperLeft().x < topLeftLvl.x || currentPlayer.getPosUpperLeft().x > bottomRightLvl.x || currentPlayer.getPosUpperLeft().y < bottomRightLvl.y ){
         return true;
     }
     return false;
@@ -272,16 +223,18 @@ void App::setCamera(){
     if(currentLevel.getCharacters()[numChar].getPosUpperLeft().x > 0 && currentLevel.getCharacters()[numChar].getPosUpperRight().x < currentLevel.getScreenLvl()[1].x- 1.78){
         camera.followCharacter(currentLevel.getCharacters()[numChar]);
     }
+    
 }
 
     
 void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
-
     glm::vec2 acceleration = {0,0};
     float acc = 0.02; //0.05
 
-    if (action == GLFW_RELEASE)
-        return;
+    keyState[key]=action!=GLFW_RELEASE;
+   
+
+    
 
     if(key == GLFW_KEY_ENTER && page == 1){
         page = 2;
@@ -295,27 +248,45 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
         page = 1;
     }
     else{
-        if(key == GLFW_KEY_RIGHT){
-          acceleration.x += acc;
+        if(keyState[GLFW_KEY_UP] && keyState[GLFW_KEY_RIGHT] ){
+        
+            if(inCollision){
+                    acceleration.y += acc*currentLevel.getCharacters()[numChar].getJumpPower();
+                    acceleration.x += 1.5*acc;
+                }
+        
         }
-        if(key == GLFW_KEY_LEFT){
-          acceleration.x -= acc;
+        if(keyState[GLFW_KEY_UP] && keyState[GLFW_KEY_LEFT] ){
+        
+            if(inCollision){
+                    acceleration.y += acc*currentLevel.getCharacters()[numChar].getJumpPower();
+                    acceleration.x -= 1.5*acc;
+                }
+        
         }
-        if(key == GLFW_KEY_UP){
+
+        else if(keyState[GLFW_KEY_RIGHT]){
+            acceleration.x += 0.1*acc;
+        }
+ 
+        else if(key == GLFW_KEY_LEFT){
+            acceleration.x -= 0.1*acc;
+        }
+        else if(key == GLFW_KEY_UP){
+
             if(inCollision){
                 acceleration.y += acc*currentLevel.getCharacters()[numChar].getJumpPower();
             }
-            else{
-                acceleration.y += 0;
-            }
             
-    
         }
-        if(key == GLFW_KEY_DOWN){
-          acceleration.y -= acc;
+        else if(key == GLFW_KEY_DOWN){
+          acceleration.y -= 0.2*acc;
         }
+
+       
+       
         //swap current player
-        if(key == GLFW_KEY_TAB){
+        if(keyState[GLFW_KEY_TAB]){
             int nbChar = currentLevel.getCharacters().size();
             
             if(numChar < nbChar-1){
@@ -325,16 +296,19 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
                 numChar = 0;
             }
             camera.followCharacter(currentLevel.getCharacters()[numChar]);
+            
         }
         
-            currentLevel.getCharacters()[numChar].mouvments(acceleration);
+            currentLevel.getCharacters()[numChar].mouvments(acceleration, deltaTime);
         
     }
     
 
 }
 
+
 void App::movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, float gravity){
+
     int i = 0;
       isColliding = false;
 
@@ -352,17 +326,19 @@ void App::movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, floa
       }
       i=0;
     }
+    
       while(i < (int)listRInSec.size() && !isColliding){
         isColliding = currentLevel.getCharacters()[numChar].collision(listRInSec[i], deplacement);
         i++;
       }
+      
       if(isColliding){
         deplacement.y = currentLevel.getCharacters()[numChar].collisionVertical(listRInSec[--i], deplacement);
         isColliding = false;
-        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,0.0005)));
+        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,0.001)),deltaTime);
       }
       else{
-        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,gravity)));
+        currentLevel.getCharacters()[numChar].mouvments((glm::vec2(0,gravity)), deltaTime);
       }
       i = 0;
 
@@ -647,3 +623,63 @@ void App::drawEyes(){
     drawCircle(cxL+0.002,cyL+0.002,0.007,10,0,0,0);
     drawCircle(cxR+0.002,cyR+0.002,0.007,10,0,0,0);
 }
+
+void App::generateRules(){
+    if(countRules <5){
+          rules();
+          countRules++;  
+        }
+        else if(countRules >=5 && countRules <10){
+           rulesUp1();
+           countRules++; 
+        }
+        else if(countRules>=4 && countRules <15){
+           rulesUp2(); 
+           countRules++; 
+        }
+        else if(countRules>=15 && countRules <20){
+           rulesUp2();
+           countRules++; 
+        }
+        else if(countRules>=20 && countRules <25){
+           rules();
+           countRules++; 
+        }
+        else if(countRules>=25 && countRules<30){
+           rulesRight1();
+           countRules++; 
+        }
+        else if(countRules>=30 && countRules<35){
+           rulesRight2();
+           countRules++; 
+        }
+        else if(countRules>=35 && countRules<40){
+           rulesLeft1();
+           countRules++; 
+        }
+        else if(countRules>=40 && countRules<45){
+           rulesLeft2();
+           countRules++; 
+        }
+        else if(countRules>=45 && countRules<50){
+           rules();
+           countRules++; 
+        }
+        else if(countRules>=50 && countRules<55){
+           rulesTab1();
+           countRules++; 
+        }
+        else if(countRules>=55 && countRules<60){
+           rulesTab2();
+           countRules++; 
+        }
+        else if(countRules>=60 && countRules<65){
+           rulesTab3();
+           countRules++; 
+        }
+        else{
+            rules();
+            countRules =0;
+        }
+        generateTexture();
+    }
