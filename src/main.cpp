@@ -30,7 +30,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
-    GLFWwindow* window = glfwCreateWindow(1280*2, 720, "OpenGLTemplate", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280*2, 720, "Thomas Was Alone", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -46,6 +46,7 @@ int main() {
 
     // Create the App
     App app;
+    //app.setWindow(window);
 
     // Hook user inputs to the App
     glfwSetWindowUserPointer(window, reinterpret_cast<void*>(&app));
@@ -70,13 +71,12 @@ int main() {
     
     int width, height;
     glfwGetWindowSize(window, &width, &height);
-    // std::cout << "width " << width << std::endl;
-    // std::cout << "height" << height << std::endl;
     app.size_callback(width, height);
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
         app.Update();
+        //std::cout << glfwGetKey(window, GLFW_KEY_RIGHT) << std::endl;
         
 
         // Swap front and back buffers
