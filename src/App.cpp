@@ -8,6 +8,7 @@
 #include "glad/glad.h"
 #include "stb_image.h"
 #include <glm/glm.hpp>
+#include <SDL2/SDL.h>
 
 
 #include "helpers/RootDir.hpp"
@@ -155,11 +156,12 @@ void App::Render() {
         drawArrow();
         drawEyes();
 
+       
+         //MOVING PLATEFORM
         mouvmentX+=speed*deltaTime;
      
         if(mouvmentX<0.15){
-            speed = 0.1;
-            
+            speed = 0.1;   
         }
         if(mouvmentX>1){
            speed = -0.1;
@@ -167,6 +169,21 @@ void App::Render() {
         Rectangle newObstacle = currentLevel.getObstacles()[2];
         newObstacle.movingPlatform(mouvmentX);
         currentLevel.setObstacle(newObstacle,2);
+
+
+        //ATTACH THE PLAYER TO MOVING PLATEFORM
+        for(int i=0; currentLevel.getCharacters().size; i++){
+            if(currentLevel.getCharacters()[i].getPosUpperLeft().x >= 0.15 && currentLevel.getCharacters()[i].getPosUpperLeft().x <= 2.45){
+            
+                if(inCollision){
+                    
+                    float newPosition = currentLevel.getCharacters()[i].getPosUpperLeft().x + speed*deltaTime;
+                    std::cout<< "Position du joueur avant plateforme"<<currentLevel.getCharacters()[i].getPosUpperLeft().x << std::endl;
+                    std::cout<< "position du joueur après plateforme" << newPosition << std::endl;
+                    currentLevel.getCharacters()[i].setPositionX(newPosition);
+                }
+            }
+        }
 
         if(checkFinalPos()){
             endMenu();
@@ -230,6 +247,7 @@ void App::setCamera(){
 void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
     glm::vec2 acceleration = {0,0};
     float acc = 0.02; //0.05
+   
 
     keyState[key]=action!=GLFW_RELEASE;
    
@@ -276,6 +294,7 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
 
             if(inCollision){
                 acceleration.y += acc*currentLevel.getCharacters()[numChar].getJumpPower();
+                
             }
             
         }
@@ -303,6 +322,7 @@ void App::key_callback(int key, int /*scancode*/, int action, int /*mods*/) {
         
     }
     
+  
 
 }
 
