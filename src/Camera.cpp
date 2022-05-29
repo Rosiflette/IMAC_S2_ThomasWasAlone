@@ -29,4 +29,8 @@ glm::vec2 Camera::getPosition(){
     return glm::vec2(this->position.x, this->position.y);
 }
 
+void Camera::setPosition(glm::vec2 pos){
+    this->position.x = pos.x;
+    this->position.y = pos.y;
+}
 

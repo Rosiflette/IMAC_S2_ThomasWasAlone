@@ -49,7 +49,8 @@ public:
     void rulesTab3();
     void endMenu();
     void displayLevel();
-
+    void generateRules();
+    
     Level currentLevel;
     Quadtree qt;
     bool inCollision;
@@ -61,6 +62,9 @@ public:
     glm::vec2 topLeftLvl;
     glm::vec2 bottomRightLvl;
     int countRules;
+
+    bool keyState[266];
+    
 
 
 
@@ -86,8 +90,10 @@ private:
     void movement(glm::vec2 deplacement,std::vector<Rectangle> listRInSec, float gravity);
     bool isDead();
     void readLvl();
-    
 
+    
+    
+    bool right;
 
     int _width;
     int _height;
@@ -112,5 +118,6 @@ private:
 
     int page; // 1 = menu, 2 = jeu
 
+    
 };
 
