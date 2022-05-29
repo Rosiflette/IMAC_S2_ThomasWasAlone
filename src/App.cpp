@@ -8,8 +8,6 @@
 #include "glad/glad.h"
 #include "stb_image.h"
 #include <glm/glm.hpp>
-#include <SDL2/SDL.h>
-
 
 #include "helpers/RootDir.hpp"
 
@@ -144,8 +142,8 @@ void App::Render() {
     }
 
     if(page == 3){
-        std::cout << currentLevel.getCharacters()[numChar].getPosUpperLeft().x << std::endl;
-        std::cout << currentLevel.getCharacters()[numChar].getPosUpperLeft().y << std::endl;
+        //std::cout << currentLevel.getCharacters()[numChar].getPosUpperLeft().x << std::endl;
+        //std::cout << currentLevel.getCharacters()[numChar].getPosUpperLeft().y << std::endl;
         
         generateTextureBackground();
         currentLevel.setNumLevel(2);
@@ -158,6 +156,7 @@ void App::Render() {
 
        
          //MOVING PLATEFORM
+        double previousMouv = mouvmentX;
         mouvmentX+=speed*deltaTime;
      
         if(mouvmentX<0.15){
@@ -166,24 +165,28 @@ void App::Render() {
         if(mouvmentX>1){
            speed = -0.1;
         }
+        
         Rectangle newObstacle = currentLevel.getObstacles()[2];
         newObstacle.movingPlatform(mouvmentX);
         currentLevel.setObstacle(newObstacle,2);
 
 
+
         //ATTACH THE PLAYER TO MOVING PLATEFORM
-        for(int i=0; currentLevel.getCharacters().size; i++){
-            if(currentLevel.getCharacters()[i].getPosUpperLeft().x >= 0.15 && currentLevel.getCharacters()[i].getPosUpperLeft().x <= 2.45){
-            
-                if(inCollision){
-                    
-                    float newPosition = currentLevel.getCharacters()[i].getPosUpperLeft().x + speed*deltaTime;
-                    std::cout<< "Position du joueur avant plateforme"<<currentLevel.getCharacters()[i].getPosUpperLeft().x << std::endl;
+        for(int i=0; i<(int)currentLevel.getCharacters().size(); i++){
+            //std::cout<<currentLevel.getCharacters()[i].collision(currentLevel.getObstacles()[2], deplacement) << std::endl; 
+            if(currentLevel.getCharacters()[i].collision(newObstacle, deplacement)){
+                    if(i==0) std::cout<<"le rouge collisionne" << std::endl;
+                    if(i==1) std::cout<<"le vert collisionne" << std::endl;
+                    if(i==2) std::cout<<"le bleu collisionne" << std::endl;
+                    double newPosition = currentLevel.getCharacters()[i].getPosUpperLeft().x + mouvmentX-previousMouv;
+                    //std::cout<< "Position du joueur avant plateforme"<<currentLevel.getCharacters()[i].getPosUpperLeft().x << std::endl;
                     std::cout<< "position du joueur après plateforme" << newPosition << std::endl;
                     currentLevel.getCharacters()[i].setPositionX(newPosition);
                 }
-            }
+            std::cout<< "." <<std::endl;
         }
+        
 
         if(checkFinalPos()){
             endMenu();
